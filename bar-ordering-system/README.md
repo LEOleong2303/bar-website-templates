@@ -7,6 +7,8 @@ built to run on cheap shared hosting.
 
 > This is a **sample template** with placeholder data. Replace the shop name,
 > menu, prices and photos with your own before using it for real customers.
+>
+> **Live demo:** https://leoleong2303.github.io/bar-website-templates/bar-ordering-system/ — demo mode runs without PHP; orders stay in your browser. Bar admin PIN `1234`.
 
 ## What it does
 

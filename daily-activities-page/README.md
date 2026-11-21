@@ -7,6 +7,8 @@ plus a hero image — no server, no database, no build step.
 
 > This is a **sample template** with placeholder content. Replace the shop
 > name, address, links and tonight’s feature with your own before publishing.
+>
+> **Live demo:** https://leoleong2303.github.io/bar-website-templates/daily-activities-page/
 
 ## Files
 

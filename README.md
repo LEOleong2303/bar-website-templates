@@ -4,6 +4,15 @@ Website templates for small bars, restaurants and cafés — taken from a real w
 
 小酒吧 / 小餐廳用的網站模板，全部來自一間真實營業緊嘅酒吧，已經清走晒店名、地址、價錢同相片，換成範例資料。唔使框架、唔使資料庫、唔使 build。
 
+## Live demo / 試玩
+
+Try them live on GitHub Pages — no install needed. 即開即試，唔使安裝：
+
+- **All three demos:** https://leoleong2303.github.io/bar-website-templates/
+- **Ordering system:** https://leoleong2303.github.io/bar-website-templates/bar-ordering-system/ (demo mode: no PHP needed, orders are stored only in your browser; bar admin PIN `1234`)
+- **Photo menu:** https://leoleong2303.github.io/bar-website-templates/bar-photo-menu/
+- **Daily activities page:** https://leoleong2303.github.io/bar-website-templates/daily-activities-page/
+
 ## What's inside / 入面有咩
 
 | Folder | What it is | Tech |
@@ -16,9 +25,9 @@ Each folder has its own README (English + 中文) with setup and customization s
 
 ## Photos / 相片
 
-The sample photos (JPG / WebP under each `assets/` folder) are **not** in this first commit — GitHub's file tools here only accept text files, so the images are uploaded separately via the GitHub web UI (drag the `assets/` folders in). Until then, image slots show placeholders. Swap in your own photos; the folder READMEs say which files map to which drinks.
+The sample photos (108 JPG / WebP files under the `assets/` folders) are in the repo — uploaded via the GitHub web UI after the first text-only commit, so they don't show in that commit's file list. Swap in your own photos; the folder READMEs say which files map to which drinks.
 
-範例相片（每個 `assets/` 入面嘅 JPG / WebP）**唔喺第一次 commit 入面**——呢度 push 檔案只接受文字檔，相片要另外經 GitHub 網頁 drag 入去。未上傳之前，相位會顯示 placeholder。記得換返自己舖頭啲相，邊個檔對邊款飲品，每個 folder 嘅 README 有寫。
+範例相片（`assets/` 入面 108 個 JPG / WebP）已經喺 repo 入面——第一次 commit 只接受文字檔，相片係之後經 GitHub 網頁另外上傳嘅。記得換返自己舖頭啲相，邊個檔對邊款飲品，每個 folder 嘅 README 有寫。
 
 ## License
 

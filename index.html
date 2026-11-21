@@ -1,0 +1,165 @@
+<!doctype html>
+<html lang="zh-Hant">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="color-scheme" content="light" />
+    <meta name="description" content="Free website templates for small bars — live demo: bar ordering system, photo menu and daily activities page." />
+    <title>Bar Website Templates — Live Demo · 酒吧網站模板試玩</title>
+    <style>
+      :root {
+        --ink: #1c2333;
+        --muted: #5b6474;
+        --faint: #8a93a5;
+        --line: #e3e6ec;
+        --bg: #f7f8fa;
+        --card: #ffffff;
+        --accent: #0f766e;
+        --accent-soft: #e6f4f2;
+        --radius: 16px;
+      }
+      * { box-sizing: border-box; }
+      body {
+        margin: 0;
+        background: var(--bg);
+        color: var(--ink);
+        font-family: system-ui, -apple-system, "Segoe UI", "Noto Sans TC", "PingFang TC", "Microsoft JhengHei", sans-serif;
+        line-height: 1.6;
+      }
+      .wrap { max-width: 960px; margin: 0 auto; padding: 0 20px 64px; }
+      header { padding: 56px 0 8px; }
+      .badge {
+        display: inline-block;
+        background: var(--accent-soft);
+        color: var(--accent);
+        font-size: 13px;
+        font-weight: 700;
+        letter-spacing: .04em;
+        border-radius: 999px;
+        padding: 4px 12px;
+        margin-bottom: 16px;
+      }
+      h1 { font-size: 34px; line-height: 1.25; margin: 0 0 10px; letter-spacing: -0.01em; }
+      header p { font-size: 17px; color: var(--muted); margin: 0 0 6px; max-width: 640px; }
+      header p.zh { font-size: 15.5px; }
+      .note {
+        margin: 26px 0 0;
+        background: var(--card);
+        border: 1px solid var(--line);
+        border-left: 4px solid var(--accent);
+        border-radius: 12px;
+        padding: 14px 18px;
+        font-size: 14.5px;
+        color: var(--muted);
+      }
+      .note b { color: var(--ink); }
+      .grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+        gap: 18px;
+        margin-top: 28px;
+      }
+      .card {
+        background: var(--card);
+        border: 1px solid var(--line);
+        border-radius: var(--radius);
+        padding: 24px 22px 20px;
+        display: flex;
+        flex-direction: column;
+      }
+      .card h2 { font-size: 20px; margin: 0 0 2px; }
+      .card h2 small { display: block; font-size: 13px; font-weight: 600; color: var(--faint); margin-top: 2px; }
+      .card p { font-size: 14.5px; color: var(--muted); margin: 12px 0 4px; flex: 1; }
+      .card p.zh { font-size: 14px; }
+      .try {
+        font-size: 13.5px;
+        color: var(--ink);
+        background: var(--bg);
+        border: 1px dashed var(--line);
+        border-radius: 10px;
+        padding: 10px 12px;
+        margin: 14px 0;
+      }
+      .try b { color: var(--accent); }
+      .btn {
+        display: inline-block;
+        text-align: center;
+        background: var(--accent);
+        color: #fff;
+        text-decoration: none;
+        font-weight: 700;
+        font-size: 15px;
+        border-radius: 10px;
+        padding: 11px 18px;
+        margin-top: 4px;
+      }
+      .btn:hover { opacity: .92; }
+      .btn.secondary {
+        background: none;
+        color: var(--accent);
+        border: 1.5px solid var(--accent);
+        padding: 9px 18px;
+        margin-top: 8px;
+      }
+      footer {
+        margin-top: 40px;
+        padding-top: 20px;
+        border-top: 1px solid var(--line);
+        font-size: 14px;
+        color: var(--muted);
+      }
+      footer a { color: var(--accent); font-weight: 600; }
+      @media (max-width: 560px) {
+        h1 { font-size: 27px; }
+        header { padding-top: 36px; }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="wrap">
+      <header>
+        <span class="badge">LIVE DEMO · 線上試玩</span>
+        <h1>Bar Website Templates<br />酒吧網站模板</h1>
+        <p>Free templates for small bars — an ordering system, a photo menu and a daily activities page. Try each one below, no sign-up needed.</p>
+        <p class="zh">中小型酒吧免費模板 — 點餐系統、相片酒單、每日活動頁。下面三個都可以即刻試玩，唔使註冊。</p>
+        <div class="note">
+          <b>Ordering demo runs entirely in your browser.</b> On this static demo site there is no PHP backend, so orders are stored only in your browser and never sent anywhere. Deploy the same files on any PHP host and the real server takes over automatically.<br />
+          <b>點餐試玩版完全喺你個瀏覽器入面跑。</b>呢個靜態試玩站冇 PHP 後端，訂單只會儲喺你個瀏覽器，唔會傳去任何地方。同一套檔案放上任何支援 PHP 嘅主機，就會自動用返真正嘅伺服器。
+        </div>
+      </header>
+
+      <main class="grid">
+        <section class="card">
+          <h2>Bar Ordering System<small>點餐系統</small></h2>
+          <p>Guests order from their phones; the bar sees orders live and marks them done. Payment stays at the bar — no online payment.</p>
+          <p class="zh">客人用手機落單，吧台即時見到、逐張完成。錢照舊喺吧枱俾，冇接網上付款。</p>
+          <div class="try"><b>Try it 試下：</b> browse the menu, add drinks, submit an order — then open the bar screen with PIN <b>1234</b> to see it arrive.</div>
+          <a class="btn" href="bar-ordering-system/">Open demo · 試玩點餐</a>
+          <a class="btn secondary" href="bar-ordering-system/admin.html">Bar / admin screen · 吧台管理（PIN 1234）</a>
+        </section>
+
+        <section class="card">
+          <h2>Photo Menu<small>相片酒單</small></h2>
+          <p>A 25-page photo menu with category tabs — every drink shown with its photo, name and price.</p>
+          <p class="zh">25 頁相片酒單，分類標籤切換 — 每款飲品都有相、名同價錢。</p>
+          <div class="try"><b>Try it 試下：</b> switch categories and flip through the pages.</div>
+          <a class="btn" href="bar-photo-menu/">Open demo · 睇酒單</a>
+        </section>
+
+        <section class="card">
+          <h2>Daily Activities Page<small>每日活動頁</small></h2>
+          <p>Tonight's feature page for guests — today's offer, event or match night, with links to order and view the menu.</p>
+          <p class="zh">畀客人睇今晚有咩搞作 — 今日優惠、活動或者波膽之夜，附點餐同酒單連結。</p>
+          <div class="try"><b>Try it 試下：</b> see how tonight's feature is presented.</div>
+          <a class="btn" href="daily-activities-page/">Open demo · 睇活動頁</a>
+        </section>
+      </main>
+
+      <footer>
+        Source code, setup instructions and the MIT license are on GitHub:<br />
+        原始碼、安裝說明同 MIT 授權條款喺 GitHub：<br />
+        <a href="https://github.com/LEOleong2303/bar-website-templates">github.com/LEOleong2303/bar-website-templates</a>
+      </footer>
+    </div>
+  </body>
+</html>

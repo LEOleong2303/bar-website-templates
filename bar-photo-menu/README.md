@@ -6,6 +6,8 @@ champagne-gold styling. Guests tap a category and scroll the pages.
 
 > This is a **sample template** with placeholder pages. Replace the page
 > images with photos of your own drinks before using it for real customers.
+>
+> **Live demo:** https://leoleong2303.github.io/bar-website-templates/bar-photo-menu/
 
 ## Files
 
