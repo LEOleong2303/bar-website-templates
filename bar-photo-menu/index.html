@@ -1,0 +1,235 @@
+<!doctype html>
+<html lang="zh-Hant">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="color-scheme" content="dark" />
+    <meta name="description" content="SAMPLE BAR 酒單 — 雞尾酒、精釀啤酒、威士忌、基酒特調、無酒精特飲、氣泡特飲、環球特選啤酒、紅酒、Shisha。範例地址。" />
+    <link rel="icon" href="data:," />
+    <title>SAMPLE BAR 酒單</title>
+    <style>
+      :root {
+        --bg: #0b0a08;
+        --bar-bg: rgba(11, 10, 8, 0.92);
+        --gold: #d9b877;
+        --gold-bright: #f0d193;
+        --ink: #f3ead8;
+        --ink-dim: #a89a80;
+        --chip-line: #3a3226;
+      }
+      * { box-sizing: border-box; }
+      body {
+        margin: 0;
+        background: var(--bg);
+        color: var(--ink);
+        font-family: "PingFang TC", "PingFang SC", "Microsoft JhengHei", "Noto Sans TC", system-ui, sans-serif;
+        -webkit-font-smoothing: antialiased;
+      }
+
+      /* ---------- 分類 tab 欄 ---------- */
+      .catbar {
+        position: sticky;
+        top: 0;
+        z-index: 20;
+        background: var(--bar-bg);
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+        border-bottom: 1px solid var(--chip-line);
+      }
+      .catbar-inner {
+        display: flex;
+        gap: 8px;
+        overflow-x: auto;
+        padding: 10px 14px;
+        max-width: 640px;
+        margin: 0 auto;
+        scrollbar-width: none;
+        -webkit-overflow-scrolling: touch;
+      }
+      .catbar-inner::-webkit-scrollbar { display: none; }
+      .catbar button {
+        flex: 0 0 auto;
+        display: inline-flex;
+        align-items: center;
+        min-height: 38px;
+        padding: 6px 14px;
+        border: 1px solid var(--chip-line);
+        border-radius: 999px;
+        background: transparent;
+        color: var(--ink-dim);
+        font: inherit;
+        font-size: 14px;
+        letter-spacing: 0.04em;
+        white-space: nowrap;
+        cursor: pointer;
+        transition: color 0.15s ease, border-color 0.15s ease, background 0.15s ease;
+      }
+      .catbar button.active {
+        color: #14100a;
+        background: var(--gold);
+        border-color: var(--gold);
+        font-weight: 600;
+      }
+
+      /* ---------- 酒單頁（tab 面板） ---------- */
+      main {
+        max-width: 640px;
+        margin: 0 auto;
+      }
+      .panel { display: none; }
+      .panel.active { display: block; }
+      .page img {
+        display: block;
+        width: 100%;
+        height: auto;
+        aspect-ratio: 9 / 16;
+        background: #14120e;
+      }
+
+      footer {
+        max-width: 640px;
+        margin: 0 auto;
+        padding: 28px 20px 40px;
+        text-align: center;
+        color: var(--ink-dim);
+        font-size: 13px;
+        line-height: 1.9;
+        letter-spacing: 0.05em;
+      }
+      footer .addr { color: var(--ink); font-size: 14px; }
+      footer .gold { color: var(--gold); }
+    </style>
+  </head>
+  <body>
+    <nav class="catbar" aria-label="酒單分類">
+      <div class="catbar-inner" id="catbar" role="tablist">
+        <button type="button" role="tab" id="tab-cat-top" data-tab="cat-top" aria-controls="cat-top" aria-selected="true">封面</button>
+        <button type="button" role="tab" id="tab-cat-cocktail" data-tab="cat-cocktail" aria-controls="cat-cocktail" aria-selected="false">雞尾酒</button>
+        <button type="button" role="tab" id="tab-cat-draft" data-tab="cat-draft" aria-controls="cat-draft" aria-selected="false">精釀啤酒</button>
+        <button type="button" role="tab" id="tab-cat-whisky" data-tab="cat-whisky" aria-controls="cat-whisky" aria-selected="false">威士忌</button>
+        <button type="button" role="tab" id="tab-cat-special" data-tab="cat-special" aria-controls="cat-special" aria-selected="false">基酒特調</button>
+        <button type="button" role="tab" id="tab-cat-zero" data-tab="cat-zero" aria-controls="cat-zero" aria-selected="false">無酒精特飲</button>
+        <button type="button" role="tab" id="tab-cat-sparkling" data-tab="cat-sparkling" aria-controls="cat-sparkling" aria-selected="false">氣泡特飲</button>
+        <button type="button" role="tab" id="tab-cat-cans" data-tab="cat-cans" aria-controls="cat-cans" aria-selected="false">環球特選啤酒</button>
+        <button type="button" role="tab" id="tab-cat-wine" data-tab="cat-wine" aria-controls="cat-wine" aria-selected="false">紅酒</button>
+        <button type="button" role="tab" id="tab-cat-shisha" data-tab="cat-shisha" aria-controls="cat-shisha" aria-selected="false">Shisha</button>
+      </div>
+    </nav>
+
+    <main id="menu">
+      <!-- 封面 -->
+      <div class="panel active" id="cat-top" role="tabpanel" aria-labelledby="tab-cat-top">
+        <section class="page">
+          <img src="assets/page-01.jpg" alt="SAMPLE BAR 封面 — beer · wine &amp; cocktail，範例地址" fetchpriority="high" />
+        </section>
+      </div>
+
+      <!-- 雞尾酒（第 2–8 頁） -->
+      <div class="panel" id="cat-cocktail" role="tabpanel" aria-labelledby="tab-cat-cocktail">
+        <section class="page"><img src="assets/page-02.jpg" alt="雞尾酒（第 1 頁，共 7 頁）" loading="lazy" decoding="async" /></section>
+        <section class="page"><img src="assets/page-03.jpg" alt="雞尾酒（第 2 頁，共 7 頁）" loading="lazy" decoding="async" /></section>
+        <section class="page"><img src="assets/page-04.jpg" alt="雞尾酒（第 3 頁，共 7 頁）" loading="lazy" decoding="async" /></section>
+        <section class="page"><img src="assets/page-05.jpg" alt="雞尾酒（第 4 頁，共 7 頁）" loading="lazy" decoding="async" /></section>
+        <section class="page"><img src="assets/page-06.jpg" alt="雞尾酒（第 5 頁，共 7 頁）" loading="lazy" decoding="async" /></section>
+        <section class="page"><img src="assets/page-07.jpg" alt="雞尾酒（第 6 頁，共 7 頁）" loading="lazy" decoding="async" /></section>
+        <section class="page"><img src="assets/page-08.jpg" alt="雞尾酒（第 7 頁，共 7 頁）" loading="lazy" decoding="async" /></section>
+      </div>
+
+      <!-- 精釀啤酒（第 19–20 頁） -->
+      <div class="panel" id="cat-draft" role="tabpanel" aria-labelledby="tab-cat-draft">
+        <section class="page"><img src="assets/page-19.jpg" alt="精釀啤酒（第 1 頁，共 2 頁）" loading="lazy" decoding="async" /></section>
+        <section class="page"><img src="assets/page-20.jpg" alt="精釀啤酒（第 2 頁，共 2 頁）" loading="lazy" decoding="async" /></section>
+      </div>
+
+      <!-- 威士忌（第 21–23 頁） -->
+      <div class="panel" id="cat-whisky" role="tabpanel" aria-labelledby="tab-cat-whisky">
+        <section class="page"><img src="assets/page-21.jpg" alt="威士忌（第 1 頁，共 3 頁）" loading="lazy" decoding="async" /></section>
+        <section class="page"><img src="assets/page-22.jpg" alt="威士忌（第 2 頁，共 3 頁）" loading="lazy" decoding="async" /></section>
+        <section class="page"><img src="assets/page-23.jpg" alt="威士忌（第 3 頁，共 3 頁）" loading="lazy" decoding="async" /></section>
+      </div>
+
+      <!-- 基酒特調（第 9–10 頁） -->
+      <div class="panel" id="cat-special" role="tabpanel" aria-labelledby="tab-cat-special">
+        <section class="page"><img src="assets/page-09.jpg" alt="基酒特調（第 1 頁，共 2 頁）" loading="lazy" decoding="async" /></section>
+        <section class="page"><img src="assets/page-10.jpg" alt="基酒特調（第 2 頁，共 2 頁）" loading="lazy" decoding="async" /></section>
+      </div>
+
+      <!-- 無酒精特飲（第 11–14 頁） -->
+      <div class="panel" id="cat-zero" role="tabpanel" aria-labelledby="tab-cat-zero">
+        <section class="page"><img src="assets/page-11.jpg" alt="無酒精特飲（第 1 頁，共 4 頁）" loading="lazy" decoding="async" /></section>
+        <section class="page"><img src="assets/page-12.jpg" alt="無酒精特飲（第 2 頁，共 4 頁）" loading="lazy" decoding="async" /></section>
+        <section class="page"><img src="assets/page-13.jpg" alt="無酒精特飲（第 3 頁，共 4 頁）" loading="lazy" decoding="async" /></section>
+        <section class="page"><img src="assets/page-14.jpg" alt="無酒精特飲（第 4 頁，共 4 頁）" loading="lazy" decoding="async" /></section>
+      </div>
+
+      <!-- 氣泡特飲（第 15–16 頁） -->
+      <div class="panel" id="cat-sparkling" role="tabpanel" aria-labelledby="tab-cat-sparkling">
+        <section class="page"><img src="assets/page-15.jpg" alt="氣泡特飲（第 1 頁，共 2 頁）" loading="lazy" decoding="async" /></section>
+        <section class="page"><img src="assets/page-16.jpg" alt="氣泡特飲（第 2 頁，共 2 頁）" loading="lazy" decoding="async" /></section>
+      </div>
+
+      <!-- 環球特選啤酒（第 17–18 頁） -->
+      <div class="panel" id="cat-cans" role="tabpanel" aria-labelledby="tab-cat-cans">
+        <section class="page"><img src="assets/page-17.jpg" alt="環球特選啤酒（第 1 頁，共 2 頁）" loading="lazy" decoding="async" /></section>
+        <section class="page"><img src="assets/page-18.jpg" alt="環球特選啤酒（第 2 頁，共 2 頁）" loading="lazy" decoding="async" /></section>
+      </div>
+
+      <!-- 紅酒（第 24 頁） -->
+      <div class="panel" id="cat-wine" role="tabpanel" aria-labelledby="tab-cat-wine">
+        <section class="page"><img src="assets/page-24.jpg" alt="紅酒" loading="lazy" decoding="async" /></section>
+      </div>
+
+      <!-- Shisha（第 25 頁） -->
+      <div class="panel" id="cat-shisha" role="tabpanel" aria-labelledby="tab-cat-shisha">
+        <section class="page"><img src="assets/page-25.jpg" alt="Shisha — 雙頭、四頭" loading="lazy" decoding="async" /></section>
+      </div>
+    </main>
+
+    <footer>
+      <div class="addr">範例酒吧 <span class="gold">SAMPLE BAR</span></div>
+      <div>範例地址 · Sample Address, Your City</div>
+      <div>未成年請勿飲酒 · 飲酒後請勿駕駛</div>
+    </footer>
+
+    <script>
+      (function () {
+        var bar = document.getElementById("catbar");
+        var tabs = Array.prototype.slice.call(bar.querySelectorAll("button[data-tab]"));
+        var panels = {};
+        tabs.forEach(function (t) { panels[t.getAttribute("data-tab")] = document.getElementById(t.getAttribute("data-tab")); });
+
+        function activate(id, updateHash) {
+          if (!panels[id]) id = "cat-top";
+          tabs.forEach(function (t) {
+            var on = t.getAttribute("data-tab") === id;
+            t.classList.toggle("active", on);
+            t.setAttribute("aria-selected", on ? "true" : "false");
+            if (on) {
+              var target = t.offsetLeft - bar.clientWidth / 2 + t.clientWidth / 2;
+              bar.scrollTo({ left: target, behavior: "smooth" });
+            }
+          });
+          Object.keys(panels).forEach(function (key) {
+            if (panels[key]) panels[key].classList.toggle("active", key === id);
+          });
+          window.scrollTo(0, 0);
+          if (updateHash && window.history && history.replaceState) {
+            history.replaceState(null, "", "#" + id);
+          }
+        }
+
+        tabs.forEach(function (t) {
+          t.addEventListener("click", function () { activate(t.getAttribute("data-tab"), true); });
+        });
+
+        window.addEventListener("hashchange", function () {
+          var id = window.location.hash.replace(/^#/, "");
+          if (panels[id]) activate(id, false);
+        });
+
+        var initial = window.location.hash.replace(/^#/, "");
+        activate(panels[initial] ? initial : "cat-top", false);
+      })();
+    </script>
+  </body>
+</html>

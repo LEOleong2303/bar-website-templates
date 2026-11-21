@@ -1,0 +1,354 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="color-scheme" content="dark light">
+<link rel="icon" href="data:,">
+<title>SAMPLE BAR — 每日活動 | 今晚：主題之夜 · 全場 8.8 折</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@600;700;900&family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#0a0908; --bg2:#12100d; --card:#171410; --card2:#1e1a14;
+  --gold:#c9a86a; --gold2:#e8cF8a; --gold-light:#f3e2b3; --champagne:#e9d8a6;
+  --text:#f5efe3; --muted:#b8ab90; --muted2:#8a7f6a;
+  --hot:#e85d2a; --hot-bg:#2a140c; --cold:#5ec8e6; --cold-bg:#0c1e26;
+  --line:rgba(201,168,106,.28); --radius:20px;
+  color-scheme: dark;
+}
+@media (prefers-color-scheme: light){
+  :root{ --bg:#faf6ec; --bg2:#f3ecd9; --card:#ffffff; --card2:#fffaf0; --text:#1c1710; --muted:#6b5d45; --muted2:#8a7a5e; --line:rgba(140,110,50,.25); color-scheme: light; }
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--text);font-family:"Noto Sans TC",system-ui,-apple-system,sans-serif;line-height:1.6}
+a{color:inherit}
+img{max-width:100%;display:block}
+.wrap{max-width:1080px;margin:0 auto;padding:0 18px 48px}
+
+/* HERO */
+.hero{position:relative;overflow:hidden;border-bottom:1px solid var(--line)}
+.hero-img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:.55}
+.hero-overlay{position:absolute;inset:0;background:linear-gradient(180deg,rgba(5,4,3,.35) 0%,rgba(5,4,3,.72) 58%,var(--bg) 100%)}
+.hero-inner{position:relative;padding:28px 18px 26px;max-width:1080px;margin:0 auto}
+.topbar{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
+.brand{font-family:"Noto Serif TC",serif;letter-spacing:.14em}
+.brand b{font-size:22px;color:#fff}
+.brand span{display:block;font-size:11px;letter-spacing:.42em;color:var(--gold2);font-weight:700}
+.date-pill{border:1px solid rgba(255,255,255,.28);background:rgba(0,0,0,.45);backdrop-filter:blur(6px);color:#fff;padding:8px 14px;border-radius:999px;font-size:13px;font-weight:700}
+.hero h1{font-family:"Noto Serif TC",serif;font-size:clamp(34px,7vw,58px);line-height:1.05;margin:28px 0 10px;color:#fff;font-weight:900}
+.hero h1 em{font-style:normal;color:var(--gold2)}
+.hero-sub{color:#e8ddc2;max-width:640px;font-size:16px;margin:0}
+.hero-tags{display:flex;gap:8px;flex-wrap:wrap;margin-top:16px}
+.tag{font-size:12px;letter-spacing:.12em;font-weight:800;padding:7px 11px;border-radius:999px;border:1px solid rgba(255,255,255,.25);color:#fff;background:rgba(0,0,0,.35)}
+.tag.gold{background:var(--gold);color:#171106;border-color:var(--gold)}
+
+/* TONIGHT MATCH NIGHT */
+.promo-strip{margin:16px 20px 0;background:linear-gradient(120deg,var(--gold),#a9853f);color:#171106;border-radius:16px;padding:16px 18px;display:flex;align-items:center;gap:16px;flex-wrap:wrap}
+.promo-strip .big{font-family:"Noto Serif TC",serif;font-size:clamp(26px,4.5vw,36px);font-weight:900;line-height:1.05}
+.promo-strip .sub{font-size:14px;font-weight:700;line-height:1.5}
+.promo-strip .only{margin-left:auto;background:#171106;color:var(--gold2);font-weight:900;font-size:13px;padding:7px 12px;border-radius:999px;letter-spacing:.06em;white-space:nowrap}
+.matches{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;padding:16px 20px 4px}
+.match{background:var(--card2);border:1px solid var(--line);border-radius:16px;padding:16px}
+.match .mtime{font-family:"Noto Serif TC",serif;font-size:26px;font-weight:900;color:var(--gold);line-height:1.1}
+.match .mtime small{display:block;font-family:"Noto Sans TC",sans-serif;font-size:12px;color:var(--muted);font-weight:700;letter-spacing:.06em;margin-top:3px}
+.match .teams{font-weight:900;font-size:19px;line-height:1.35;margin:10px 0 4px}
+.match .teams .vs{color:var(--muted2);font-size:13px;font-weight:700;margin:0 2px}
+.match .league{font-size:12px;letter-spacing:.1em;color:var(--gold);font-weight:800}
+.match p{color:var(--muted);font-size:13.5px;margin:8px 0 0}
+.match .headliner{display:inline-block;background:var(--gold);color:#171106;font-size:11px;font-weight:900;padding:3px 8px;border-radius:999px;letter-spacing:.05em;margin-bottom:8px}
+.match.star{border-color:var(--gold);box-shadow:0 0 0 1px var(--gold) inset}
+@media(max-width:760px){.matches{grid-template-columns:1fr}.promo-strip .only{margin-left:0}}
+
+/* TONIGHT ICE & FIRE */
+.tonight{margin-top:22px;background:var(--card);border:1px solid var(--line);border-radius:24px;overflow:hidden;box-shadow:0 18px 50px rgba(0,0,0,.35)}
+.tonight-head{padding:20px 20px 6px;display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;align-items:flex-end}
+.kicker{font-size:11px;letter-spacing:.28em;color:var(--gold);font-weight:900;text-transform:uppercase}
+.tonight-head h2{font-family:"Noto Serif TC",serif;font-size:clamp(28px,5vw,40px);margin:4px 0 0;line-height:1.1}
+.tonight-head p{color:var(--muted);margin:0;max-width:420px;font-size:14px}
+.vs-grid{display:grid;grid-template-columns:1fr 1fr;gap:0;margin-top:16px}
+.side{padding:22px 20px 24px;position:relative}
+.side.hot{background:linear-gradient(160deg,#2b150b,#1a0f08);color:#fff}
+.side.cold{background:linear-gradient(160deg,#0b2532,#08161d);color:#fff}
+.side .label{display:inline-flex;align-items:center;gap:8px;font-weight:900;letter-spacing:.08em;font-size:13px;padding:6px 10px;border-radius:999px}
+.hot .label{background:rgba(232,93,42,.22);border:1px solid rgba(255,140,80,.5);color:#ffb38a}
+.cold .label{background:rgba(94,200,230,.18);border:1px solid rgba(94,200,230,.45);color:#a8e6f7}
+.side h3{font-family:"Noto Serif TC",serif;font-size:24px;line-height:1.25;margin:14px 0 6px}
+.side .en{font-size:12px;letter-spacing:.06em;opacity:.85;text-transform:uppercase;font-weight:700}
+.side .desc{font-size:14px;opacity:.92;margin:10px 0 0}
+.price{margin-top:18px;display:flex;align-items:baseline;gap:6px}
+.price strong{font-size:36px;line-height:1}
+.hot .price strong{color:#ff9a62}.cold .price strong{color:#7dd8f2}
+.price span{font-size:13px;opacity:.8}
+.serve{margin-top:10px;font-size:13px;font-weight:700}
+.hot .serve{color:#ffcfb3}.cold .serve{color:#c2eefb}
+.vs-badge{position:absolute;left:50%;top:22px;transform:translateX(-50%);z-index:2;width:44px;height:44px;border-radius:50%;background:var(--gold);color:#171106;display:grid;place-items:center;font-weight:900;font-family:"Noto Serif TC",serif;border:3px solid var(--bg);font-size:13px}
+@media(min-width:761px){.side.hot{padding-right:38px}.side.cold{padding-left:38px}}
+.beer-list{margin-top:14px;display:flex;flex-direction:column;gap:12px}
+.beer{background:rgba(255,255,255,.06);border:1px solid rgba(125,216,242,.22);border-radius:14px;padding:12px 13px}
+.beer b{font-size:15px;line-height:1.35;display:block}
+.beer .sub{font-size:13px;opacity:.88;margin-top:2px}
+.beer .bprice{margin-top:8px;display:flex;align-items:baseline;gap:8px;flex-wrap:wrap}
+.beer .bprice del{opacity:.65;font-size:14px}
+.beer .bprice strong{color:#7dd8f2;font-size:24px;line-height:1}
+.beer .bprice .off{background:#7dd8f2;color:#06202c;font-size:11px;font-weight:900;padding:3px 7px;border-radius:999px;letter-spacing:.04em}
+.beer .bprice .vol{font-size:12px;opacity:.75}
+.tonight-foot{padding:16px 20px 20px;display:flex;gap:10px;flex-wrap:wrap}
+.btn{min-height:48px;padding:12px 20px;border-radius:999px;display:inline-flex;align-items:center;justify-content:center;gap:8px;text-decoration:none;font-weight:900;font-size:15px;border:1px solid transparent;cursor:pointer}
+.btn-gold{background:var(--gold);color:#171106}
+.btn-outline{background:transparent;color:var(--text);border-color:var(--line)}
+.btn:active{transform:scale(.98)}
+
+/* SECTIONS */
+.section{margin-top:34px}
+.section-head{display:flex;justify-content:space-between;align-items:end;gap:12px;flex-wrap:wrap;margin-bottom:14px}
+.section-head h2{font-family:"Noto Serif TC",serif;font-size:26px;margin:2px 0 0}
+.section-head p{color:var(--muted);margin:0;font-size:14px}
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:18px}
+.card .icon{font-size:22px}
+.card h3{margin:8px 0 4px;font-size:17px}
+.card p{color:var(--muted);font-size:14px;margin:0}
+.card .big{font-family:"Noto Serif TC",serif;font-size:22px;color:var(--gold);font-weight:900}
+.card .time{color:var(--gold);font-weight:900;font-size:13px;letter-spacing:.06em}
+
+/* TIMELINE */
+.timeline{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);overflow:hidden}
+.row{display:flex;gap:14px;padding:16px 18px;border-bottom:1px solid var(--line)}
+.row:last-child{border-bottom:0}
+.row .t{flex:0 0 92px;font-weight:900;color:var(--gold);font-size:14px}
+.row b{display:block}
+.row span{color:var(--muted);font-size:14px}
+
+/* WEEK */
+.week{display:grid;grid-template-columns:repeat(7,1fr);gap:8px}
+.day{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:12px 10px;text-align:center;min-height:118px}
+.day.today{border-color:var(--gold);background:linear-gradient(180deg,rgba(201,168,106,.18),var(--card));box-shadow:0 0 0 1px var(--gold) inset}
+.day .dow{font-size:12px;color:var(--muted);font-weight:800;letter-spacing:.08em}
+.day .theme{font-weight:900;font-size:14px;line-height:1.3;margin:6px 0 4px}
+.day .note{font-size:12px;color:var(--muted);line-height:1.4}
+.day .today-tag{font-size:11px;background:var(--gold);color:#171106;font-weight:900;padding:2px 7px;border-radius:999px;display:inline-block;margin-bottom:6px}
+
+/* INFO */
+.info{display:grid;grid-template-columns:1.2fr .8fr;gap:12px}
+.info-box{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:20px}
+.info-box h3{margin:0 0 8px;font-family:"Noto Serif TC",serif}
+.info-box p{color:var(--muted);margin:6px 0;font-size:15px}
+.notice{font-size:13px;color:var(--muted);border-top:1px dashed var(--line);margin-top:22px;padding-top:14px}
+.footer{text-align:center;color:var(--muted2);font-size:12px;margin-top:28px;letter-spacing:.08em}
+
+@media(max-width:760px){
+  .vs-grid{grid-template-columns:1fr}
+  .vs-badge{display:none}
+  .grid{grid-template-columns:1fr}
+  .week{grid-template-columns:repeat(2,1fr)}
+  .day:last-child{grid-column:span 2}
+  .info{grid-template-columns:1fr}
+  .row{flex-direction:column;gap:2px}
+  .hero-inner{padding-top:20px}
+}
+@media (prefers-reduced-motion: no-preference){
+  .tonight,.card,.day{transition:transform .18s ease, border-color .18s ease}
+  .card:hover,.day:hover{transform:translateY(-2px)}
+}
+</style>
+</head>
+<body>
+<!-- SAMPLE TEMPLATE — replace the shop name, address, links and tonight feature with your own. See README.md. -->
+
+<header class="hero">
+  <img class="hero-img" src="assets/hero.webp" alt="SAMPLE BAR 酒吧內景：吧枱上的馬天尼、水煙與咪高峰，黑金燈光">
+  <div class="hero-overlay"></div>
+  <div class="hero-inner">
+    <div class="topbar">
+      <div class="brand"><b>範例酒吧</b> <b style="letter-spacing:.08em">SAMPLE BAR</b><span>COCKTAILS · SHISHA · KARAOKE</span></div>
+      <div class="date-pill" id="date-pill">今晚</div>
+    </div>
+    <h1>每日活動<br><em>今晚，嚟睇波。</em></h1>
+    <p class="hero-sub">每晚都有節目：雞尾酒、精釀、水煙同 Karaoke。今日星期六，主題係「睇波夜」——英超三場重點賽事由入夜踢到凌晨，今晚全場 8.8 折，陪你睇到尾。</p>
+    <div class="hero-tags">
+      <span class="tag gold">★ 今晚限定 全場 8.8 折</span>
+      <span class="tag">⚽ 英超三場 · 20:30 開波</span>
+      <span class="tag">HAPPY HOUR 17:00–19:00 買一送一</span>
+    </div>
+  </div>
+</header>
+
+<main class="wrap">
+
+  <!-- TONIGHT FEATURE -->
+  <section class="tonight" aria-label="今晚精選：睇波夜">
+    <div class="tonight-head">
+      <div>
+        <div class="kicker">Tonight Only · 今晚精選 — 星期六</div>
+        <h2>⚽ 睇波夜</h2>
+      </div>
+      <p>英超復賽，三場重點一晚過：黃昏曼城打頭陣，深夜車路士接力，凌晨壓軸係榜首大戰。約齊朋友，嚟 SAMPLE BAR 一齊睇。</p>
+    </div>
+
+    <div class="promo-strip">
+      <div class="big">全場 8.8 折</div>
+      <div class="sub">今晚睇波夜限定 — 雞尾酒、精釀、水煙，成晚照價 8.8 折。</div>
+      <span class="only">僅限今晚</span>
+    </div>
+
+    <div class="matches">
+      <article class="match">
+        <div class="mtime">20:30<small>星期六晚 · 北京時間</small></div>
+        <div class="teams">曼城 <span class="vs">vs</span> 富咸</div>
+        <div class="league">英超 PREMIER LEAGUE</div>
+        <p>曼城聯賽第 3 位主場出擊，今晚第一場，開波時間最啱——食完晚飯嚟坐定定，啱啱好。</p>
+      </article>
+      <article class="match">
+        <div class="mtime">23:00<small>星期六晚 · 北京時間</small></div>
+        <div class="teams">車路士 <span class="vs">vs</span> 列斯</div>
+        <div class="league">英超 PREMIER LEAGUE</div>
+        <p>車路士聯賽第 5 位，夜晚黃金時間開波，氣氛最熱鬧嗰場，叫多杯慢慢睇。</p>
+      </article>
+      <article class="match star">
+        <span class="headliner">★ 今晚重頭戲</span>
+        <div class="mtime">01:30<small>周日凌晨 · 北京時間</small></div>
+        <div class="teams">紐卡素 <span class="vs">vs</span> 阿仙奴</div>
+        <div class="league">英超 PREMIER LEAGUE · 榜首大戰</div>
+        <p>阿仙奴聯賽第 1 位，五連勝氣勢正盛，作客紐卡素——今晚最唔可以錯過嘅壓軸大戰，睇到凌晨都值。</p>
+      </article>
+    </div>
+
+    <div class="tonight-foot">
+      <a class="btn btn-gold" href="https://your-ordering-site.example/" target="_blank" rel="noopener">🍸 立即點餐</a>
+      <a class="btn btn-outline" href="https://your-menu-link.example/" target="_blank" rel="noopener">📖 睇完整酒單</a>
+      <span style="align-self:center;color:var(--muted);font-size:13px">全場 8.8 折僅限今晚 · 賽事時間為北京時間 · 優惠詳情以店內公佈為準</span>
+    </div>
+  </section>
+
+  <!-- TONIGHT FLOW -->
+  <section class="section">
+    <div class="section-head">
+      <div><div class="kicker">Tonight's Flow</div><h2>今晚點玩？</h2></div>
+      <p>由黃昏 Happy Hour 開始，一路玩到夜晚</p>
+    </div>
+    <div class="timeline">
+      <div class="row"><div class="t">17:00–19:00</div><div><b>Happy Hour 買一送一</b><span>雞尾酒 · 精釀啤酒 — 放工第一站，先嚟一杯，坐定定等開波。</span></div></div>
+      <div class="row"><div class="t">20:30</div><div><b>曼城 vs 富咸</b><span>英超 — 曼城第 3 位主場出擊，今晚第一場。</span></div></div>
+      <div class="row"><div class="t">23:00</div><div><b>車路士 vs 列斯</b><span>英超 — 車路士第 5 位，夜晚黃金時間，氣氛最熱鬧。</span></div></div>
+      <div class="row"><div class="t">01:30</div><div><b>紐卡素 vs 阿仙奴 · 榜首大戰</b><span>周日凌晨壓軸 — 阿仙奴第 1 位、五連勝，作客紐卡素。</span></div></div>
+      <div class="row"><div class="t">全晚</div><div><b>全場 8.8 折 + 水煙 + Karaoke</b><span>今晚全場 8.8 折（僅限今晚）；睇波之餘，水煙、特調、Karaoke 照常供應。</span></div></div>
+    </div>
+  </section>
+
+  <!-- EVERYDAY OFFERS -->
+  <section class="section">
+    <div class="section-head">
+      <div><div class="kicker">Every Day</div><h2>每日都有 · 固定優惠</h2></div>
+      <p>唔使等星期幾，日日嚟都有</p>
+    </div>
+    <div class="grid">
+      <article class="card">
+        <div class="icon">🕔</div>
+        <div class="time">每天 17:00–19:00</div>
+        <h3>Happy Hour 買一送一</h3>
+        <p>雞尾酒 · 精釀啤酒<br>BUY 1 GET 1</p>
+      </article>
+      <article class="card">
+        <div class="icon">✨</div>
+        <div class="big">全場 8.8 折</div>
+        <h3>新張期間限定</h3>
+        <p>新張期間嚟幫襯，全場照價 8.8 折。</p>
+      </article>
+      <article class="card">
+        <div class="icon">🎤</div>
+        <div class="big">Karaoke</div>
+        <h3>每晚有得唱</h3>
+        <p>SPECIAL DRINKS · SHISHA<br>COCKTAILS · KARAOKE · EVERYNIGHT</p>
+      </article>
+      <article class="card">
+        <div class="icon">🍹</div>
+        <div class="big">¥19 起</div>
+        <h3>氣泡特飲</h3>
+        <p>無酒精特調系列，清爽有氣，唔飲酒都啱飲。</p>
+      </article>
+      <article class="card">
+        <div class="icon">🍺</div>
+        <div class="big">¥19 起</div>
+        <h3>精釀生啤</h3>
+        <p>每日生啤供應，Happy Hour 時段仲買一送一。</p>
+      </article>
+      <article class="card">
+        <div class="icon">💨</div>
+        <div class="big">¥88 / ¥118</div>
+        <h3>水煙 Shisha</h3>
+        <p>雙頭 ¥88 · 四頭 ¥118<br>同朋友慢慢嘆，最啱傾偈。</p>
+      </article>
+    </div>
+  </section>
+
+  <!-- WEEK -->
+  <section class="section">
+    <div class="section-head">
+      <div><div class="kicker">This Week</div><h2>一週節奏</h2></div>
+      <p>固定優惠每日都有，星期六晚另有主題精選</p>
+    </div>
+    <div class="week" id="week">
+      <div class="day" data-dow="1"><div class="dow">星期一 MON</div><div class="theme">放工鬆一鬆</div><div class="note">Happy Hour<br>17:00–19:00</div></div>
+      <div class="day" data-dow="2"><div class="dow">星期二 TUE</div><div class="theme">精釀之夜</div><div class="note">精釀生啤 ¥19 起</div></div>
+      <div class="day" data-dow="3"><div class="dow">星期三 WED</div><div class="theme">氣泡特飲夜</div><div class="note">無酒精特調 ¥19 起</div></div>
+      <div class="day" data-dow="4"><div class="dow">星期四 THU</div><div class="theme">水煙傾偈夜</div><div class="note">水煙 ¥88 / ¥118</div></div>
+      <div class="day" data-dow="5"><div class="dow">星期五 FRI</div><div class="theme">主題之夜</div><div class="note">每週精選<br>以當晚公佈為準</div></div>
+      <div class="day" data-dow="6"><div class="dow">星期六 SAT</div><div class="theme">睇波夜</div><div class="note">今晚全場 8.8 折<br>英超三場 · 20:30 開波</div></div>
+      <div class="day" data-dow="0"><div class="dow">星期日 SUN</div><div class="theme">慢活收尾</div><div class="note">輕鬆一杯<br>迎接新一週</div></div>
+    </div>
+    <p style="color:var(--muted);font-size:13px;margin-top:10px">＊ 一週節奏為氣氛主題，固定優惠（Happy Hour、全場 8.8 折等）每日適用；主題精選以當晚店內公佈為準。</p>
+  </section>
+
+  <!-- INFO / CTA -->
+  <section class="section">
+    <div class="info">
+      <div class="info-box">
+        <h3>📍 點嚟？</h3>
+        <p><strong style="color:var(--text)">SAMPLE BAR</strong></p>
+        <p>範例地址 · Sample Address, Your City</p>
+        <p>嚟到門口認住發光招牌就係。</p>
+        <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:14px">
+          <a class="btn btn-gold" href="https://your-ordering-site.example/" target="_blank" rel="noopener">立即點餐</a>
+          <a class="btn btn-outline" href="https://your-menu-link.example/" target="_blank" rel="noopener">睇酒單</a>
+        </div>
+      </div>
+      <div class="info-box">
+        <h3>今晚提提你</h3>
+        <p>✓ 17:00 前到，趕得切 Happy Hour 買一送一</p>
+        <p>✓ 今晚全場 8.8 折，僅限今晚</p>
+        <p>✓ 睇波夜三場：20:30 曼城 vs 富咸、23:00 車路士 vs 列斯、01:30 紐卡素 vs 阿仙奴</p>
+        <p>✓ 點餐可先喺手機落單，到店慢慢嘆</p>
+      </div>
+    </div>
+    <p class="notice">未成年請勿飲酒 · 請勿酒後駕駛 · 優惠詳情以店內公佈為準，Happy Hour 買一送一適用於雞尾酒及精釀啤酒。</p>
+    <div class="footer">SAMPLE BAR — SPECIAL DRINKS / SHISHA / COCKTAILS / KARAOKE / EVERYNIGHT</div>
+  </section>
+
+</main>
+
+<script>
+// Highlight today's weekday in the week grid based on the viewer's date.
+// Tonight's feature above is a sample (football night). Replace it with your own daily feature.
+(function(){
+  // Date pill always shows today — edit the tonight feature below, not the date.
+  var pill = document.getElementById('date-pill');
+  if (pill) {
+    var d = new Date();
+    var wd = ['日','一','二','三','四','五','六'][d.getDay()];
+    pill.textContent = d.getFullYear() + '年' + (d.getMonth()+1) + '月' + d.getDate() + '日 · 星期' + wd;
+  }
+  var today = new Date().getDay();
+  document.querySelectorAll('.day').forEach(function(el){
+    if (parseInt(el.getAttribute('data-dow'),10) === today) {
+      el.classList.add('today');
+      var tag = document.createElement('span');
+      tag.className = 'today-tag'; tag.textContent = '今日';
+      el.insertBefore(tag, el.firstChild);
+    }
+  });
+})();
+</script>
+</body>
+</html>

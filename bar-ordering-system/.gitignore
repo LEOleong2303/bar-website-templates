@@ -1,0 +1,3 @@
+# Live order data (created on first order; never commit real orders)
+data/orders.json
+data/login_attempts.json

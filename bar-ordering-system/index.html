@@ -1,0 +1,840 @@
+<!doctype html>
+<html lang="zh-Hant">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="color-scheme" content="dark" />
+    <link rel="icon" href="data:," />
+    <title>SAMPLE BAR 點餐</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&family=Noto+Serif+TC:wght@600;700;900&display=swap" rel="stylesheet" />
+    <style>
+      :root{
+        --bg:#0b0906;
+        --panel:#171310;
+        --panel-2:#201a14;
+        --line:#322a1f;
+        --line-soft:#241d15;
+        --gold:#e3c078;
+        --gold-deep:#b8934a;
+        --gold-ink:#1a1409;
+        --cream:#f5efe0;
+        --muted:#b8ab8f;
+        --faint:#8a7d63;
+        --ok:#9dc08b;
+        --radius:14px;
+      }
+      *{ box-sizing:border-box; }
+      html{ -webkit-text-size-adjust:100%; }
+      body{
+        margin:0;
+        background:var(--bg);
+        color:var(--cream);
+        font-family:"Noto Sans TC", system-ui, -apple-system, "PingFang TC", "Microsoft JhengHei", sans-serif;
+        line-height:1.55;
+        padding-bottom:env(safe-area-inset-bottom);
+      }
+      button{ font:inherit; color:inherit; background:none; border:none; cursor:pointer; }
+      button, [role="button"], select, input, textarea{ min-height:2.75rem; }
+      :focus-visible{ outline:2px solid var(--gold); outline-offset:2px; }
+
+      .wrap{ max-width:880px; margin:0 auto; padding:0 16px; }
+
+      /* ---------- view switch ---------- */
+      .viewbar{
+        position:sticky; top:0; z-index:40;
+        background:rgba(11,9,6,.94);
+        backdrop-filter:blur(8px);
+        border-bottom:1px solid var(--line-soft);
+      }
+      .viewbar-inner{ display:flex; align-items:center; gap:12px; padding-top:10px; padding-bottom:10px; }
+      .brand{ font-family:"Noto Serif TC", serif; font-weight:900; letter-spacing:.14em; font-size:15px; white-space:nowrap; }
+      .brand small{ display:block; font-family:"Noto Sans TC",sans-serif; font-weight:500; letter-spacing:.32em; font-size:9px; color:var(--gold); }
+      .seg{ margin-left:auto; display:flex; background:var(--panel); border:1px solid var(--line); border-radius:999px; padding:3px; }
+      .seg button{
+        min-height:2.5rem; padding:0 16px; border-radius:999px; font-weight:700; font-size:14px; color:var(--muted);
+        display:inline-flex; align-items:center; gap:7px;
+      }
+      .seg button[aria-pressed="true"]{ background:var(--gold); color:var(--gold-ink); }
+      .seg .dot{
+        min-width:20px; height:20px; padding:0 5px; border-radius:999px;
+        background:#8c2f22; color:#fff; font-size:12px; font-weight:700;
+        display:none; align-items:center; justify-content:center; line-height:1;
+      }
+      .seg button[aria-pressed="true"] .dot{ background:var(--gold-ink); color:var(--gold); }
+      .seg .dot.show{ display:inline-flex; }
+
+      /* ---------- guest intro ---------- */
+      .intro{ padding:18px 0 4px; }
+      .intro h1{ font-family:"Noto Serif TC",serif; font-size:24px; font-weight:900; margin:0 0 4px; letter-spacing:.02em; }
+      .intro p{ margin:0; color:var(--muted); font-size:14px; }
+      .cover{
+        display:block; width:100%; height:190px; object-fit:cover; object-position:center 62%;
+        border-radius:var(--radius); border:1px solid var(--line); margin-top:14px;
+      }
+      @media (min-width:700px){ .cover{ height:240px; } }
+
+      /* ---------- category tabs ---------- */
+      .catbar{ display:flex; flex-wrap:wrap; gap:8px; padding:14px 0 6px; }
+      .catbar button{
+        min-height:2.5rem; padding:0 14px; border:1px solid var(--line); border-radius:999px;
+        color:var(--muted); font-size:14px; font-weight:500; background:var(--panel);
+      }
+      .catbar button[aria-selected="true"]{ border-color:var(--gold); color:var(--gold); font-weight:700; background:var(--panel-2); }
+
+      .cat-title{ display:flex; align-items:baseline; gap:10px; margin:18px 0 2px; }
+      .cat-title h2{ font-family:"Noto Serif TC",serif; font-size:20px; font-weight:700; margin:0; }
+      .cat-title span{ color:var(--faint); font-size:12px; letter-spacing:.18em; }
+
+      /* ---------- menu items ---------- */
+      .items{ list-style:none; margin:0; padding:0; }
+      .item{
+        display:grid; grid-template-columns:76px 1fr auto; gap:6px 14px;
+        padding:13px 2px; border-bottom:1px solid var(--line-soft); align-items:center;
+      }
+      .item .thumb{
+        width:76px; height:96px; object-fit:cover; display:block;
+        border-radius:10px; border:1px solid var(--line-soft); background:var(--panel-2);
+      }
+      .item .nm{ font-family:"Noto Serif TC",serif; font-size:16.5px; font-weight:600; }
+      .item .sub{ color:var(--faint); font-size:12.5px; margin-top:1px; }
+      .item .ing{ color:#B2A48A; font-size:12.5px; margin-top:1px; }
+      .item .ctl{ display:flex; align-items:center; gap:10px; grid-row:span 1; }
+      .price{ color:var(--gold); font-weight:700; font-size:16px; white-space:nowrap; min-width:52px; text-align:right; }
+      .price small{ font-size:11px; color:var(--faint); font-weight:500; }
+      .addbtn{
+        width:44px; height:44px; min-height:44px; border-radius:50%;
+        border:1.5px solid var(--gold); color:var(--gold);
+        font-size:24px; line-height:1; display:flex; align-items:center; justify-content:center;
+      }
+      .addbtn:active{ background:var(--gold); color:var(--gold-ink); }
+      .addbtn.gone{ display:none; }
+      .stepper{ display:none; align-items:center; gap:2px; border:1.5px solid var(--gold); border-radius:999px; padding:2px; }
+      .stepper.on{ display:inline-flex; }
+      .stepper button{ width:38px; height:38px; min-height:38px; border-radius:50%; font-size:20px; color:var(--gold); display:flex; align-items:center; justify-content:center; }
+      .stepper .q{ min-width:26px; text-align:center; font-weight:700; font-size:16px; }
+      .asktag{ color:var(--faint); font-size:13px; border:1px dashed var(--line); border-radius:999px; padding:8px 12px; white-space:nowrap; }
+
+      .foot-note{ color:var(--faint); font-size:12.5px; text-align:center; padding:26px 0 110px; margin:0; }
+
+      /* ---------- cart bar ---------- */
+      .cartbar{
+        position:fixed; left:0; right:0; bottom:0; z-index:50;
+        padding:10px 16px calc(10px + env(safe-area-inset-bottom));
+        background:rgba(11,9,6,.96); border-top:1px solid var(--line);
+        display:none;
+      }
+      .cartbar.show{ display:block; }
+      .cartbar-inner{ max-width:880px; margin:0 auto; display:flex; align-items:center; gap:14px; }
+      .cartbar .sum{ font-size:14px; color:var(--muted); }
+      .cartbar .sum b{ color:var(--cream); font-size:17px; }
+      .cartbar .sum .amt{ color:var(--gold); font-weight:700; font-size:17px; margin-left:8px; }
+      .btn-gold{
+        margin-left:auto; background:var(--gold); color:var(--gold-ink);
+        font-weight:700; font-size:15.5px; border-radius:12px; padding:0 22px; min-height:3rem;
+        display:inline-flex; align-items:center; justify-content:center; gap:8px;
+      }
+      .btn-gold:disabled{ opacity:.45; cursor:not-allowed; }
+      .btn-ghost{
+        border:1px solid var(--line); color:var(--cream); border-radius:12px; padding:0 18px; min-height:3rem;
+        font-weight:500; display:inline-flex; align-items:center; justify-content:center;
+      }
+
+      /* ---------- sheet (cart / confirm) ---------- */
+      .scrim{
+        position:fixed; inset:0; z-index:60; background:rgba(0,0,0,.66);
+        display:none; align-items:flex-end; justify-content:center;
+      }
+      .scrim.open{ display:flex; }
+      .sheet{
+        background:var(--panel); width:100%; max-width:640px; max-height:92dvh; overflow-y:auto;
+        border-radius:20px 20px 0 0; border:1px solid var(--line); border-bottom:none;
+        padding:20px 20px calc(20px + env(safe-area-inset-bottom));
+      }
+      @media (min-width:700px){
+        .scrim{ align-items:center; padding:24px; }
+        .sheet{ border-radius:20px; border-bottom:1px solid var(--line); }
+      }
+      .sheet h2{ font-family:"Noto Serif TC",serif; margin:0 0 2px; font-size:21px; }
+      .sheet .sub2{ color:var(--muted); font-size:13.5px; margin:0 0 14px; }
+      .sheet .x{ float:right; width:40px; height:40px; min-height:40px; border-radius:50%; border:1px solid var(--line); color:var(--muted); font-size:17px; }
+      .cartline{ display:grid; grid-template-columns:52px 1fr auto; gap:4px 12px; padding:11px 0; border-bottom:1px solid var(--line-soft); align-items:center; }
+      .cartline .cthumb{
+        width:52px; height:64px; object-fit:cover; display:block;
+        border-radius:8px; border:1px solid var(--line-soft); background:var(--panel-2);
+      }
+      .cartline .nm{ font-weight:600; font-size:15.5px; }
+      .cartline .up{ color:var(--faint); font-size:12.5px; }
+      .cartline .lt{ color:var(--gold); font-weight:700; text-align:right; }
+      .cartline .stepper{ display:inline-flex; }
+      .cart-total{ display:flex; justify-content:space-between; align-items:baseline; padding:14px 0 4px; font-size:15px; }
+      .cart-total b{ color:var(--gold); font-size:21px; }
+      .cart-total small{ color:var(--faint); display:block; font-size:12px; margin-top:2px; }
+
+      .seat-label{ font-weight:700; font-size:15px; margin:18px 0 8px; }
+      #seats{ display:block; }
+      #seats .seats{ display:grid; grid-template-columns:repeat(3,1fr); gap:8px; }
+      #seats .bar-spot{
+        display:block; width:100%; min-height:3.8rem; border:1px solid var(--line); border-radius:12px; background:var(--panel-2);
+        font-size:17px; font-weight:700; color:var(--muted); margin-bottom:10px;
+      }
+      #seats .bar-spot[aria-pressed="true"]{ border-color:var(--gold); color:var(--gold-ink); background:var(--gold); }
+      #seats .bar-spot small{ display:block; font-size:11px; font-weight:500; letter-spacing:.2em; }
+      #seats .seats button{ min-height:2.9rem; font-size:15px; }
+      .seats button{
+        min-height:3.4rem; border:1px solid var(--line); border-radius:12px; background:var(--panel-2);
+        font-size:16px; font-weight:600; color:var(--muted);
+      }
+      .seats button[aria-pressed="true"]{ border-color:var(--gold); color:var(--gold-ink); background:var(--gold); font-weight:700; }
+      .seats button small{ display:block; font-size:11px; font-weight:500; letter-spacing:.2em; }
+      .seat-group{ font-weight:700; font-size:13px; color:var(--gold); letter-spacing:.22em; margin:16px 0 8px; }
+      .seat-group:first-child{ margin-top:2px; }
+
+      .note-input{
+        width:100%; margin-top:14px; background:var(--panel-2); border:1px solid var(--line); border-radius:12px;
+        color:var(--cream); padding:12px 14px; font:inherit; font-size:15px; resize:vertical; min-height:3rem;
+      }
+      .note-input::placeholder{ color:var(--faint); }
+      .sheet .actions{ display:flex; gap:10px; margin-top:18px; }
+      .sheet .actions .btn-gold{ margin-left:0; flex:1; }
+      .err{ color:#e08a7a; font-size:13.5px; margin:10px 0 0; display:none; }
+      .err.show{ display:block; }
+
+      /* confirm */
+      .confirm{ text-align:center; padding:8px 0 4px; }
+      .confirm .tick{
+        width:64px; height:64px; margin:6px auto 14px; border-radius:50%;
+        border:2px solid var(--ok); color:var(--ok); font-size:32px;
+        display:flex; align-items:center; justify-content:center;
+      }
+      .confirm h2{ font-size:23px; }
+      .confirm .ono{ color:var(--gold); font-family:"Noto Serif TC",serif; font-size:30px; font-weight:900; letter-spacing:.06em; margin:6px 0 2px; }
+      .confirm p{ color:var(--muted); font-size:14.5px; margin:4px 0; }
+      .confirm .receipt{
+        text-align:left; background:var(--panel-2); border:1px solid var(--line-soft); border-radius:12px;
+        padding:12px 16px; margin:16px 0; font-size:14.5px;
+      }
+      .confirm .receipt div{ display:flex; justify-content:space-between; padding:3px 0; }
+      .confirm .receipt .rl{ align-items:center; gap:10px; }
+      .confirm .receipt .rl > span:first-child{ flex:1; }
+      .confirm .receipt .rthumb{
+        width:34px; height:42px; object-fit:cover; flex:none;
+        border-radius:6px; border:1px solid var(--line-soft); background:var(--panel);
+      }
+      .confirm .receipt .tot{ border-top:1px solid var(--line); margin-top:8px; padding-top:9px; font-weight:700; }
+      .confirm .receipt .tot span:last-child{ color:var(--gold); }
+      .confirm .actions{ display:flex; gap:10px; }
+      .confirm .btn-play{
+        display:flex; flex-direction:column; align-items:center; justify-content:center; gap:2px;
+        width:100%; margin-top:12px; min-height:3.4rem; padding:8px 12px;
+        border:1px solid var(--gold); color:var(--gold); border-radius:12px;
+        font-weight:700; font-size:15.5px; text-decoration:none;
+      }
+      .confirm .btn-play small{ font-weight:500; font-size:12.5px; color:var(--muted); }
+      .confirm .actions button{ flex:1; }
+
+      /* ---------- bar view ---------- */
+      .bar-head{ display:flex; align-items:center; gap:12px; padding:18px 0 4px; flex-wrap:wrap; }
+      .bar-head h1{ font-family:"Noto Serif TC",serif; font-size:24px; font-weight:900; margin:0; }
+      .bar-head p{ width:100%; margin:0; color:var(--muted); font-size:14px; }
+      .bell{
+        margin-left:auto; border:1px solid var(--line); border-radius:999px; padding:0 14px; min-height:2.5rem;
+        color:var(--muted); font-size:13.5px; display:inline-flex; align-items:center; gap:7px;
+      }
+      .bell[aria-pressed="true"]{ border-color:var(--gold); color:var(--gold); }
+      .empty{
+        border:1px dashed var(--line); border-radius:var(--radius); color:var(--muted);
+        text-align:center; padding:38px 20px; font-size:15px; margin-top:16px;
+      }
+      .empty b{ color:var(--cream); display:block; font-size:16.5px; margin-bottom:4px; }
+      .order{
+        background:var(--panel); border:1px solid var(--line); border-radius:var(--radius);
+        padding:16px; margin-top:14px;
+      }
+      .order.fresh{ border-color:var(--gold); box-shadow:0 0 0 1px var(--gold); }
+      @media (prefers-reduced-motion: no-preference){
+        .order.fresh{ animation:pulse 1.1s ease-in-out 3; }
+        @keyframes pulse{ 50%{ box-shadow:0 0 0 5px rgba(227,192,120,.22); } }
+      }
+      .order .ohead{ display:flex; align-items:center; gap:12px; flex-wrap:wrap; }
+      .seat-badge{
+        background:var(--gold); color:var(--gold-ink); border-radius:10px; font-weight:900;
+        padding:7px 12px; font-size:16px; white-space:nowrap; line-height:1.25; text-align:center;
+      }
+      .seat-badge small{ display:block; font-size:10px; font-weight:700; letter-spacing:.24em; }
+      .order .ono2{ font-family:"Noto Serif TC",serif; font-weight:700; font-size:17px; }
+      .order .otime{ color:var(--faint); font-size:13px; }
+      .status-tag{ margin-left:auto; font-size:12.5px; font-weight:700; border-radius:999px; padding:5px 11px; }
+      .st-new{ background:#8c2f22; color:#ffd9d2; }
+      .st-making{ background:#5c4a17; color:#f3d98b; }
+      .st-done{ background:#2c4423; color:#bfe3ae; }
+      .order ul{ list-style:none; margin:12px 0 0; padding:12px 0 0; border-top:1px solid var(--line-soft); }
+      .order li{ display:flex; justify-content:space-between; align-items:center; gap:12px; padding:3.5px 0; font-size:15.5px; }
+      .order li .lft{ display:flex; align-items:center; gap:10px; min-width:0; }
+      .order li .othumb{
+        width:38px; height:48px; object-fit:cover; flex:none;
+        border-radius:6px; border:1px solid var(--line-soft); background:var(--panel-2);
+      }
+      .order li .q{ color:var(--gold); font-weight:700; white-space:nowrap; }
+      .order li .oing{ color:#B2A48A; font-size:12.5px; }
+      .order .onote{
+        margin-top:10px; background:var(--panel-2); border-radius:10px; padding:9px 12px;
+        font-size:14px; color:var(--cream);
+      }
+      .order .onote span{ color:var(--gold); font-weight:700; margin-right:6px; }
+      .order .ofoot{ display:flex; align-items:center; gap:10px; margin-top:14px; }
+      .order .ototal{ font-size:15px; color:var(--muted); }
+      .order .ototal b{ color:var(--gold); font-size:18px; }
+      .order .ofoot .btn-gold, .order .ofoot .btn-ghost{ margin-left:0; min-height:2.9rem; }
+      .order .ofoot .spacer{ flex:1; }
+      /* ---------- PIN gate ---------- */
+      .pin-dots{ display:flex; justify-content:center; gap:14px; margin:20px 0 6px; }
+      .pin-dot{
+        width:15px; height:15px; border-radius:50%;
+        border:1.5px solid var(--gold-deep); background:transparent;
+      }
+      .pin-dot.on{ background:var(--gold); border-color:var(--gold); }
+      .pin-err{ color:#e08a7a; font-size:13.5px; text-align:center; min-height:1.4em; margin:6px 0 2px; }
+      .pinpad{ display:grid; grid-template-columns:repeat(3,1fr); gap:10px; max-width:300px; margin:10px auto 2px; }
+      .pinpad button{
+        min-height:3.6rem; border:1px solid var(--line); border-radius:14px; background:var(--panel-2);
+        font-size:22px; font-weight:600; color:var(--cream);
+      }
+      .pinpad button:active{ border-color:var(--gold); color:var(--gold); }
+      .pinpad button.util{ font-size:15px; color:var(--muted); }
+      @media (prefers-reduced-motion: no-preference){
+        .pin-shake{ animation:pinshake .4s ease-in-out; }
+        @keyframes pinshake{ 20%,60%{ transform:translateX(-7px); } 40%,80%{ transform:translateX(7px); } }
+      }
+
+      .done-sec h2{ font-family:"Noto Serif TC",serif; font-size:18px; margin:28px 0 0; color:var(--muted); }
+      .order.done{ opacity:.62; }
+      .demo-line{ color:var(--faint); font-size:12.5px; text-align:center; padding:22px 0 40px; margin:0; }
+      .menu-loading{ color:var(--muted); text-align:center; padding:40px 0; }
+      .menu-error{ color:#e08a7a; text-align:center; padding:40px 16px; border:1px dashed var(--line); border-radius:var(--radius); margin-top:16px; }
+      .thumb-ph{ display:inline-flex; align-items:center; justify-content:center; font-family:"Noto Serif TC",serif; font-size:26px; font-weight:700; color:var(--gold); background:var(--panel-2); }
+      .hidden{ display:none !important; }
+    </style>
+  </head>
+  <body>
+    <div class="viewbar">
+      <div class="wrap viewbar-inner">
+        <div class="brand">範例酒吧<small>SAMPLE BAR</small></div>
+        <div class="seg" role="group" aria-label="切換畫面">
+          <button type="button" id="btn-guest" aria-pressed="true">客人點餐</button>
+          <button type="button" id="btn-bar" aria-pressed="false">吧台訂單 <span class="dot" id="bar-dot">0</span></button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ================= 客人畫面 ================= -->
+    <main id="view-guest">
+      <div class="wrap">
+        <div class="intro">
+          <h1>想飲啲咩？</h1>
+          <p>撳「＋」加落訂單，揀埋你坐邊度（吧枱或者枱號），提交之後吧台即刻收到。錢照舊喺吧枱俾。</p>
+          <img class="cover" src="assets/cover.jpg" alt="SAMPLE BAR" />
+        </div>
+        <nav class="catbar" id="catbar" aria-label="酒單分類"></nav>
+        <section id="menu-list" aria-live="polite"></section>
+        <p class="foot-note">未成年請勿飲酒 · 飲酒後請勿駕駛<br />範例地址 · Sample Address, Your City</p>
+      </div>
+    </main>
+
+    <!-- ================= 吧台畫面 ================= -->
+    <main id="view-bar" class="hidden">
+      <div class="wrap">
+        <div class="bar-head">
+          <h1>吧台訂單</h1>
+          <button type="button" class="bell" id="bell" aria-pressed="false">新單提示聲：關</button>
+          <button type="button" class="bell" id="lock-bar">鎖返吧台畫面</button>
+          <p>新訂單會即刻出現喺呢度，整好一張撳一張「完成」。</p>
+        </div>
+        <div id="orders-live"></div>
+        <div class="done-sec hidden" id="done-sec">
+          <h2>已完成</h2>
+          <div id="orders-done"></div>
+        </div>
+        <p class="demo-line">訂單經伺服器傳送，客人用自己部手機落單，吧台任何一部機都即刻收到。錢照舊喺吧枱俾。</p>
+      </div>
+    </main>
+
+    <!-- cart bar -->
+    <div class="cartbar" id="cartbar">
+      <div class="cartbar-inner">
+        <div class="sum">已選 <b id="cart-count">0</b> 款<span class="amt" id="cart-amt">¥0</span></div>
+        <button type="button" class="btn-gold" id="open-cart">查看訂單</button>
+      </div>
+    </div>
+
+    <!-- cart sheet -->
+    <div class="scrim" id="scrim">
+      <div class="sheet" role="dialog" aria-modal="true" aria-labelledby="sheet-title">
+        <div id="sheet-cart">
+          <button type="button" class="x" id="close-sheet" aria-label="關閉">✕</button>
+          <h2 id="sheet-title">你嘅訂單</h2>
+          <p class="sub2">提交之後，吧台就會開始整。</p>
+          <div id="cart-lines"></div>
+          <div class="cart-total">
+            <span>合共<small>到吧枱付款，唔使而家俾錢</small></span>
+            <b id="sheet-amt">¥0</b>
+          </div>
+          <p class="seat-label" id="seat-label">你坐邊度？</p>
+          <div class="seats" id="seats" role="group" aria-labelledby="seat-label"></div>
+          <textarea class="note-input" id="order-note" rows="2" placeholder="備註（可留空）：少冰、少甜、唔要花生…"></textarea>
+          <p class="err" id="seat-err">請先揀你坐嘅吧枱或者枱號，吧台先知送去邊。</p>
+          <div class="actions">
+            <button type="button" class="btn-ghost" id="back-menu">返去加單</button>
+            <button type="button" class="btn-gold" id="submit-order">提交訂單</button>
+          </div>
+        </div>
+        <div id="sheet-done" class="confirm hidden">
+          <div class="tick" aria-hidden="true">✓</div>
+          <h2>吧台收到喇</h2>
+          <div class="ono" id="done-no">#001</div>
+          <p id="done-seat">3 號位</p>
+          <div class="receipt" id="done-receipt"></div>
+          <p>坐定定等一陣，整好會送到你位。<br />想睇吧台嗰邊點收到？撳下面去吧台畫面睇下。</p>
+          <div class="actions">
+            <button type="button" class="btn-ghost" id="done-again">再叫多杯</button>
+            <button type="button" class="btn-gold" id="done-tobar">去吧台畫面睇</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- bar PIN gate -->
+    <div class="scrim" id="gate-scrim">
+      <div class="sheet" role="dialog" aria-modal="true" aria-labelledby="gate-title" id="gate-sheet">
+        <button type="button" class="x" id="gate-close" aria-label="關閉">✕</button>
+        <h2 id="gate-title">吧台畫面</h2>
+        <p class="sub2">吧台訂單只供同事使用，請輸入 4 位 PIN。</p>
+        <div class="pin-dots" id="pin-dots" aria-hidden="true">
+          <span class="pin-dot"></span><span class="pin-dot"></span><span class="pin-dot"></span><span class="pin-dot"></span>
+        </div>
+        <p class="pin-err" id="pin-err" role="alert"></p>
+        <div class="pinpad" id="pinpad">
+          <button type="button" data-pin="1">1</button>
+          <button type="button" data-pin="2">2</button>
+          <button type="button" data-pin="3">3</button>
+          <button type="button" data-pin="4">4</button>
+          <button type="button" data-pin="5">5</button>
+          <button type="button" data-pin="6">6</button>
+          <button type="button" data-pin="7">7</button>
+          <button type="button" data-pin="8">8</button>
+          <button type="button" data-pin="9">9</button>
+          <button type="button" class="util" id="pin-cancel">取消</button>
+          <button type="button" data-pin="0">0</button>
+          <button type="button" class="util" id="pin-del" aria-label="刪除一位">⌫</button>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      "use strict";
+      /* ===== 酒單（同現行酒單相同） ===== */
+      var CATS = [
+        { id:"cocktail", name:"雞尾酒", en:"COCKTAILS" },
+        { id:"draft",    name:"精釀啤酒", en:"ON TAP" },
+        { id:"whisky",   name:"威士忌", en:"WHISKY" },
+        { id:"special",  name:"基酒特調", en:"HOUSE MIX" },
+        { id:"zero",     name:"無酒精特飲", en:"ZERO PROOF" },
+        { id:"sparkling", name:"氣泡特飲", en:"SPARKLING" },
+        { id:"cans",     name:"環球特選啤酒", en:"BEERS" },
+        { id:"wine",     name:"紅酒", en:"WINE" },
+        { id:"shisha",   name:"Shisha", en:"SHISHA" }
+      ];
+      /* price: null = 價錢面議，不設加單掣 */
+      var MENU = []; /* 由 api.php?action=get_menu 載入 */
+      /* ===== 由伺服器載入酒單 ===== */
+      var menuLoaded = false;
+      function apiGet(action){
+        return fetch("api.php?action=" + action).then(function(r){
+          if (!r.ok) throw new Error("HTTP " + r.status);
+          return r.json();
+        });
+      }
+      function apiPost(action, body){
+        return fetch("api.php?action=" + action, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(body || {})
+        }).then(function(r){
+          return r.json().catch(function(){ return {}; }).then(function(d){
+            if (!r.ok) throw new Error((d && d.error) || ("HTTP " + r.status));
+            return d;
+          });
+        });
+      }
+      function loadMenu(){
+        $("menu-list").innerHTML = '<p class="menu-loading">載入酒單中…</p>';
+        apiGet("get_menu").then(function(d){
+          if (!d.ok || !d.menu) throw new Error("bad menu");
+          MENU = d.menu.map(function(m, i){
+            return { id: i, slug: m.id, c: m.category, n: m.name, s: m.sub || "", ing: m.ing || "", p: m.price, img: m.img || "" };
+          });
+          menuLoaded = true;
+          renderCats(); renderMenu(); renderCartBar();
+        }).catch(function(){
+          $("menu-list").innerHTML = '<p class="menu-error">載入唔到酒單，請檢查網絡後重新整理呢頁。</p>';
+        });
+      }
+      function thumbHtml(name, img, cls){
+        if (img) return '<img class="' + cls + '" src="' + img + '" alt="' + name + '" decoding="async" />';
+        return '<span class="' + cls + ' thumb-ph">' + name.charAt(0) + '</span>';
+      }
+
+      /* ===== 狀態 ===== */
+      var cart = {};        /* id -> qty */
+      var orders = [];      /* 由伺服器攞返嚟嘅訂單（最新先） */
+      var curCat = "cocktail";
+      /* 座位：吧枱（成條，唔分號）+ 枱 1–3 號 */
+      var SPOTS = [];
+      (function(){
+        var i;
+        SPOTS.push({ id:"bar", label:"吧枱", en:"BAR", group:"bar" });
+        for (i = 1; i <= 3; i++) SPOTS.push({ id:"table" + i, label:i + " 號枱", en:"TABLE", group:"枱" });
+      })();
+      var curSpot = "";
+      var barUnlocked = false;
+      function spotById(id){ for (var i = 0; i < SPOTS.length; i++) if (SPOTS[i].id === id) return SPOTS[i]; return null; }
+      var bellOn = false;
+      var audioCtx = null;
+
+      function $(id){ return document.getElementById(id); }
+      function money(v){ return "¥" + v; }
+      function cartCount(){ var n=0; for (var k in cart) n += cart[k]; return n; }
+      function cartKinds(){ var n=0; for (var k in cart) if (cart[k]>0) n++; return n; }
+      function cartTotal(){ var t=0; for (var k in cart) t += MENU[k].p * cart[k]; return t; }
+
+      /* ===== 客人：分類 + 酒單 ===== */
+      function renderCats(){
+        var bar = $("catbar"); bar.innerHTML = "";
+        CATS.forEach(function(c){
+          var b = document.createElement("button");
+          b.type = "button"; b.textContent = c.name;
+          b.setAttribute("aria-selected", c.id === curCat ? "true" : "false");
+          b.addEventListener("click", function(){ curCat = c.id; renderCats(); renderMenu(); });
+          bar.appendChild(b);
+        });
+      }
+      function renderMenu(){
+        var cat = CATS.filter(function(c){ return c.id === curCat; })[0];
+        var html = '<div class="cat-title"><h2>' + cat.name + '</h2><span>' + cat.en + '</span></div><ul class="items">';
+        MENU.filter(function(m){ return m.c === curCat; }).forEach(function(m){
+          var q = cart[m.id] || 0;
+          html += '<li class="item">' + thumbHtml(m.n, m.img, "thumb") + '<div><div class="nm">' + m.n + '</div>' +
+            (m.ing ? '<div class="ing">' + m.ing + '</div>' : '') +
+            (m.s ? '<div class="sub">' + m.s + '</div>' : '') + '</div><div class="ctl">';
+          if (m.p === null){
+            html += '<span class="price">價錢面議</span><span class="asktag">請向吧台查詢</span>';
+          } else {
+            html += '<span class="price">' + money(m.p) + '</span>' +
+              '<button type="button" class="addbtn' + (q>0 ? ' gone' : '') + '" data-add="' + m.id + '" aria-label="加一杯 ' + m.n + '">+</button>' +
+              '<span class="stepper' + (q>0 ? ' on' : '') + '" data-step="' + m.id + '">' +
+                '<button type="button" data-dec="' + m.id + '" aria-label="減少">−</button>' +
+                '<span class="q">' + q + '</span>' +
+                '<button type="button" data-inc="' + m.id + '" aria-label="增加">+</button></span>';
+          }
+          html += '</div></li>';
+        });
+        html += '</ul>';
+        $("menu-list").innerHTML = html;
+      }
+      function setQty(id, q){
+        if (q <= 0) delete cart[id]; else cart[id] = Math.min(q, 20);
+        renderMenu(); renderCartBar(); if ($("scrim").classList.contains("open")) renderCartLines();
+      }
+      $("menu-list").addEventListener("click", function(e){
+        var t = e.target;
+        if (t.dataset.add !== undefined && t.dataset.add !== "") setQty(+t.dataset.add, (cart[t.dataset.add]||0) + 1);
+        else if (t.dataset.inc) setQty(+t.dataset.inc, (cart[t.dataset.inc]||0) + 1);
+        else if (t.dataset.dec) setQty(+t.dataset.dec, (cart[t.dataset.dec]||0) - 1);
+      });
+
+      /* ===== 購物車列 ===== */
+      function renderCartBar(){
+        var n = cartCount();
+        $("cartbar").classList.toggle("show", n > 0 && !$("scrim").classList.contains("open"));
+        $("cart-count").textContent = cartKinds();
+        $("cart-amt").textContent = money(cartTotal());
+      }
+
+      /* ===== 訂單 sheet ===== */
+      function renderSeats(){
+        var box = $("seats"); box.innerHTML = "";
+        /* 上層：一條長嘅吧枱掣 */
+        var bar = SPOTS.filter(function(s){ return s.group === "bar"; })[0];
+        var b = document.createElement("button");
+        b.type = "button"; b.className = "bar-spot";
+        b.innerHTML = bar.label + "<small>" + bar.en + "</small>";
+        b.setAttribute("aria-pressed", curSpot === bar.id ? "true" : "false");
+        b.addEventListener("click", function(){ curSpot = bar.id; $("seat-err").classList.remove("show"); renderSeats(); });
+        box.appendChild(b);
+        /* 下層：1–3 號枱，細啲 */
+        var grid = document.createElement("div");
+        grid.className = "seats";
+        SPOTS.filter(function(s){ return s.group === "枱"; }).forEach(function(s){
+          var tb = document.createElement("button");
+          tb.type = "button";
+          tb.innerHTML = s.label + "<small>" + s.en + "</small>";
+          tb.setAttribute("aria-pressed", curSpot === s.id ? "true" : "false");
+          tb.addEventListener("click", function(){ curSpot = s.id; $("seat-err").classList.remove("show"); renderSeats(); });
+          grid.appendChild(tb);
+        });
+        box.appendChild(grid);
+      }
+      function renderCartLines(){
+        var html = "";
+        for (var k in cart){
+          var m = MENU[k], q = cart[k];
+          html += '<div class="cartline">' + thumbHtml(m.n, m.img, "cthumb") + '<div><div class="nm">' + m.n + '</div><div class="up">' + money(m.p) + ' / 杯</div></div>' +
+            '<div style="display:flex;align-items:center;gap:12px;">' +
+            '<span class="stepper"><button type="button" data-cdec="' + k + '" aria-label="減少">−</button><span class="q">' + q + '</span><button type="button" data-cinc="' + k + '" aria-label="增加">+</button></span>' +
+            '<span class="lt" style="min-width:52px;">' + money(m.p * q) + '</span></div></div>';
+        }
+        $("cart-lines").innerHTML = html || '<p style="color:var(--muted)">未揀任何飲品。</p>';
+        $("sheet-amt").textContent = money(cartTotal());
+        $("submit-order").disabled = cartCount() === 0;
+      }
+      $("cart-lines").addEventListener("click", function(e){
+        var t = e.target;
+        if (t.dataset.cinc) setQty(+t.dataset.cinc, (cart[t.dataset.cinc]||0) + 1);
+        else if (t.dataset.cdec) setQty(+t.dataset.cdec, (cart[t.dataset.cdec]||0) - 1);
+      });
+      function openSheet(){
+        $("sheet-cart").classList.remove("hidden");
+        $("sheet-done").classList.add("hidden");
+        renderCartLines(); renderSeats();
+        $("scrim").classList.add("open"); renderCartBar();
+      }
+      function closeSheet(){ $("scrim").classList.remove("open"); renderCartBar(); }
+      $("open-cart").addEventListener("click", openSheet);
+      $("close-sheet").addEventListener("click", closeSheet);
+      $("back-menu").addEventListener("click", closeSheet);
+      $("scrim").addEventListener("click", function(e){ if (e.target === $("scrim")) closeSheet(); });
+
+      /* ===== 提交訂單 ===== */
+      function pad(n){ return (n < 10 ? "0" : "") + n; }
+      function nowTime(){ var d = new Date(); return pad(d.getHours()) + ":" + pad(d.getMinutes()); }
+      $("submit-order").addEventListener("click", function(){
+        if (cartCount() === 0) return;
+        var spot = spotById(curSpot);
+        if (!spot){ $("seat-err").classList.add("show"); $("seats").scrollIntoView({block:"center"}); return; }
+        var btn = $("submit-order");
+        btn.disabled = true;
+        var items = [];
+        for (var k in cart) items.push({ id: MENU[k].slug, qty: cart[k] });
+        apiPost("submit_order", { items: items, spot: curSpot, note: $("order-note").value.trim() }).then(function(d){
+          btn.disabled = false;
+          if (!d.ok || !d.order) throw new Error("submit failed");
+          var order = d.order;
+          cart = {}; $("order-note").value = ""; curSpot = "";
+          renderMenu(); renderCartBar();
+          /* 確認畫面 */
+          $("sheet-cart").classList.add("hidden");
+          $("sheet-done").classList.remove("hidden");
+          $("done-no").textContent = "#" + pad3(order.no);
+          $("done-seat").textContent = order.seat + " · " + order.time;
+          var r = "";
+          order.items.forEach(function(it){ r += '<div class="rl">' + thumbHtml(it.n, it.img, "rthumb") + '<span>' + it.n + " × " + it.q + "</span><span>" + money(it.p * it.q) + "</span></div>"; });
+          r += '<div class="tot"><span>合共（吧枱付款）</span><span>' + money(order.total) + "</span></div>";
+          $("done-receipt").innerHTML = r;
+        }).catch(function(){
+          btn.disabled = false;
+          $("seat-err").textContent = "提交唔到，請檢查網絡再試一次。";
+          $("seat-err").classList.add("show");
+        });
+      });
+      function pad3(n){ return ("00" + n).slice(-3); }
+      $("done-again").addEventListener("click", closeSheet);
+      $("done-tobar").addEventListener("click", function(){ closeSheet(); requestBar(); });
+
+      /* ===== 吧台畫面 ===== */
+      function statusTag(s){
+        if (s === "new") return '<span class="status-tag st-new">新訂單</span>';
+        if (s === "making") return '<span class="status-tag st-making">製作中</span>';
+        return '<span class="status-tag st-done">已完成</span>';
+      }
+      function orderCard(o){
+        var html = '<article class="order' + (o.status === "done" ? " done" : "") + (o.fresh && o.status !== "done" ? " fresh" : "") + '">' +
+          '<div class="ohead"><div class="seat-badge">' + o.seat + '<small>' + (o.seatEn || "BAR SEAT") + '</small></div>' +
+          '<div><div class="ono2">訂單 #' + pad3(o.no) + '</div><div class="otime">' + o.time + ' 落單</div></div>' +
+          statusTag(o.status) + '</div><ul>';
+        o.items.forEach(function(it){
+          html += '<li><span class="lft">' + thumbHtml(it.n, it.img, "othumb") + '<span>' + it.n + (it.ing ? '<div class="oing">' + it.ing + '</div>' : '') + '</span></span><span class="q">× ' + it.q + '</span></li>';
+        });
+        html += '</ul>';
+        if (o.note) html += '<div class="onote"><span>備註</span>' + o.note.replace(/</g, "&lt;") + '</div>';
+        html += '<div class="ofoot"><span class="ototal">合共 <b>' + money(o.total) + '</b></span><span class="spacer"></span>';
+        if (o.status === "new") html += '<button type="button" class="btn-gold" data-act="make" data-id="' + o.id + '">開始製作</button>';
+        if (o.status === "making") html += '<button type="button" class="btn-gold" data-act="done" data-id="' + o.id + '">完成 · 送去 ' + o.seat + '</button>';
+        html += '</div></article>';
+        return html;
+      }
+      function renderOrders(){
+        var live = orders.filter(function(o){ return o.status !== "done"; });
+        var done = orders.filter(function(o){ return o.status === "done"; });
+        $("orders-live").innerHTML = live.length
+          ? live.map(orderCard).join("")
+          : '<div class="empty"><b>暫時未有新訂單</b>去客人畫面落一張單，呢度即刻會見到。</div>';
+        $("done-sec").classList.toggle("hidden", done.length === 0);
+        $("orders-done").innerHTML = done.map(orderCard).join("");
+        var dot = $("bar-dot");
+        dot.textContent = live.length;
+        dot.classList.toggle("show", live.length > 0);
+      }
+      /* ===== 吧台：每 5 秒向伺服器攞最新訂單 ===== */
+      var pollTimer = null;
+      var seenOrderIds = {};
+      function serverToLocal(o){
+        var st = o.status === "製作中" ? "making" : (o.status === "完成" ? "done" : "new");
+        return { id: o.id, no: o.no, seat: o.seat, seatEn: o.seatEn, items: o.items, total: o.total, note: o.note, time: o.time, status: st, fresh: false };
+      }
+      function fetchOrders(){
+        if (!barUnlocked) return;
+        apiGet("get_orders").then(function(d){
+          if (!d.ok) return;
+          var freshFound = false;
+          var next = d.orders.map(function(o){
+            var lo = serverToLocal(o);
+            if (lo.status === "new" && !seenOrderIds[lo.id]){ lo.fresh = true; freshFound = true; }
+            seenOrderIds[lo.id] = true;
+            return lo;
+          });
+          orders = next;
+          renderOrders();
+          if (freshFound) chime();
+        }).catch(function(err){
+          if (err && err.message === "HTTP 401"){ stopPolling(); barUnlocked = false; openGate(); }
+        });
+      }
+      function startPolling(){
+        stopPolling();
+        fetchOrders();
+        pollTimer = setInterval(fetchOrders, 5000);
+      }
+      function stopPolling(){
+        if (pollTimer){ clearInterval(pollTimer); pollTimer = null; }
+      }
+      $("view-bar").addEventListener("click", function(e){
+        var t = e.target;
+        if (!t.dataset.act) return;
+        var o = orders.filter(function(x){ return x.id === t.dataset.id; })[0];
+        if (!o) return;
+        var st = t.dataset.act === "make" ? "製作中" : "完成";
+        apiPost("update_order", { id: o.id, status: st }).then(function(){
+          fetchOrders();
+        }).catch(function(){ /* 失敗就等下次輪詢 */ });
+      });
+
+      /* ===== 提示聲 ===== */
+      function chime(){
+        if (!bellOn) return;
+        try {
+          if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+          if (audioCtx.state === "suspended") audioCtx.resume();
+          var t0 = audioCtx.currentTime;
+          [880, 1174].forEach(function(f, i){
+            var osc = audioCtx.createOscillator(), g = audioCtx.createGain();
+            osc.frequency.value = f; osc.type = "sine";
+            g.gain.setValueAtTime(0.0001, t0 + i * 0.18);
+            g.gain.exponentialRampToValueAtTime(0.22, t0 + i * 0.18 + 0.02);
+            g.gain.exponentialRampToValueAtTime(0.0001, t0 + i * 0.18 + 0.3);
+            osc.connect(g); g.connect(audioCtx.destination);
+            osc.start(t0 + i * 0.18); osc.stop(t0 + i * 0.18 + 0.32);
+          });
+        } catch (err) { /* 無聲都唔影響落單 */ }
+      }
+      $("bell").addEventListener("click", function(){
+        bellOn = !bellOn;
+        $("bell").setAttribute("aria-pressed", bellOn ? "true" : "false");
+        $("bell").textContent = bellOn ? "新單提示聲：開" : "新單提示聲：關";
+        if (bellOn) chime();
+      });
+
+      /* ===== 切換畫面 ===== */
+      function switchView(v){
+        var guest = v === "guest";
+        $("view-guest").classList.toggle("hidden", !guest);
+        $("view-bar").classList.toggle("hidden", guest);
+        $("btn-guest").setAttribute("aria-pressed", guest ? "true" : "false");
+        $("btn-bar").setAttribute("aria-pressed", guest ? "false" : "true");
+        if (!guest){
+          startPolling();
+          orders.forEach(function(o){ /* 睇過即唔再閃 */ setTimeout(function(){ o.fresh = false; renderOrders(); }, 3600); });
+        } else {
+          stopPolling();
+        }
+        renderCartBar();
+        window.scrollTo(0, 0);
+      }
+      $("btn-guest").addEventListener("click", function(){ switchView("guest"); });
+      $("btn-bar").addEventListener("click", requestBar);
+
+      /* ===== 吧台畫面入口：4 位 PIN（由伺服器驗證） ===== */
+      var pinEntry = "";
+      var pinBusy = false;
+      function renderPin(){
+        var dots = $("pin-dots").children;
+        for (var i = 0; i < dots.length; i++) dots[i].classList.toggle("on", i < pinEntry.length);
+      }
+      function openGate(){
+        pinEntry = ""; pinBusy = false;
+        $("pin-err").textContent = ""; renderPin();
+        $("gate-scrim").classList.add("open");
+      }
+      function closeGate(){ $("gate-scrim").classList.remove("open"); pinEntry = ""; renderPin(); }
+      function requestBar(){
+        if (barUnlocked){ switchView("bar"); return; }
+        openGate();
+      }
+      function pinFail(){
+        pinEntry = ""; renderPin();
+        $("pin-err").textContent = "PIN 唔啱，請再試一次。";
+        var sh = $("gate-sheet");
+        sh.classList.remove("pin-shake"); void sh.offsetWidth; sh.classList.add("pin-shake");
+      }
+      function checkPin(){
+        if (pinBusy) return;
+        pinBusy = true;
+        apiPost("login", { pin: pinEntry }).then(function(d){
+          pinBusy = false;
+          if (d.ok){ barUnlocked = true; closeGate(); switchView("bar"); }
+          else pinFail();
+        }).catch(function(err){
+          pinBusy = false;
+          var msg = err && err.message ? err.message : "";
+          if (msg === "PIN 唔啱"){ pinFail(); return; }
+          pinEntry = ""; renderPin();
+          $("pin-err").textContent = (msg.indexOf("HTTP") === 0 || msg === "") ? "連唔到伺服器，請檢查網絡再試。" : msg;
+        });
+      }
+      function pinKey(k){
+        if (pinBusy) return;
+        $("pin-err").textContent = "";
+        if (pinEntry.length < 4) pinEntry += k;
+        renderPin();
+        if (pinEntry.length === 4) checkPin();
+      }
+      $("pinpad").addEventListener("click", function(e){
+        var t = e.target;
+        if (t.dataset && t.dataset.pin) pinKey(t.dataset.pin);
+      });
+      $("pin-del").addEventListener("click", function(){ if (!pinBusy){ pinEntry = pinEntry.slice(0, -1); renderPin(); } });
+      $("pin-cancel").addEventListener("click", closeGate);
+      $("gate-close").addEventListener("click", closeGate);
+      $("gate-scrim").addEventListener("click", function(e){ if (e.target === $("gate-scrim")) closeGate(); });
+      document.addEventListener("keydown", function(e){
+        if (!$("gate-scrim").classList.contains("open")) return;
+        if (/^[0-9]$/.test(e.key)) pinKey(e.key);
+        else if (e.key === "Backspace"){ if (!pinBusy){ pinEntry = pinEntry.slice(0, -1); renderPin(); } }
+        else if (e.key === "Escape") closeGate();
+      });
+      $("lock-bar").addEventListener("click", function(){ barUnlocked = false; stopPolling(); apiPost("logout", {}).catch(function(){}); switchView("guest"); });
+
+      renderCats(); loadMenu(); renderOrders(); renderCartBar();
+    </script>
+  </body>
+</html>

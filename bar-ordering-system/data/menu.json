@@ -1,0 +1,737 @@
+[
+  {
+    "id": "cuba-libre",
+    "name": "自由古巴",
+    "price": 38,
+    "category": "cocktail",
+    "category_name": "雞尾酒",
+    "img": "assets/img/cuba-libre.jpg",
+    "ing": "Rum · Cola · Lime"
+  },
+  {
+    "id": "gin-fizz",
+    "name": "金菲士",
+    "price": 38,
+    "category": "cocktail",
+    "category_name": "雞尾酒",
+    "img": "assets/img/gin-fizz.jpg",
+    "ing": "Gin · Lemon Juice · Syrup · Soda"
+  },
+  {
+    "id": "mojito",
+    "name": "莫吉托",
+    "price": 38,
+    "category": "cocktail",
+    "category_name": "雞尾酒",
+    "img": "assets/img/mojito.jpg",
+    "ing": "Rum · Mint · Lime · Soda"
+  },
+  {
+    "id": "highball",
+    "name": "Highball",
+    "price": 38,
+    "category": "cocktail",
+    "category_name": "雞尾酒",
+    "img": "assets/img/highball.jpg",
+    "ing": "Whisky · Soda"
+  },
+  {
+    "id": "gin-tonic",
+    "name": "金湯力",
+    "price": 38,
+    "category": "cocktail",
+    "category_name": "雞尾酒",
+    "img": "assets/img/gin-tonic.jpg",
+    "ing": "Gin · Tonic"
+  },
+  {
+    "id": "lemon-plum-high",
+    "name": "檸檬梅子 High",
+    "price": 42,
+    "category": "cocktail",
+    "category_name": "雞尾酒",
+    "img": "assets/img/lemon-plum-high.jpg",
+    "ing": "Vodka · Tonic · Lemon · Plum"
+  },
+  {
+    "id": "whisky-sour",
+    "name": "威士忌酸",
+    "price": 42,
+    "category": "cocktail",
+    "category_name": "雞尾酒",
+    "img": "assets/img/whisky-sour.jpg",
+    "ing": "Whisky · Lemon Juice · Syrup"
+  },
+  {
+    "id": "millionaire",
+    "name": "百萬大道",
+    "price": 42,
+    "category": "cocktail",
+    "category_name": "雞尾酒",
+    "img": "assets/img/millionaire.jpg",
+    "ing": "Bourbon · Triple Sec · Grenadine"
+  },
+  {
+    "id": "screwdriver",
+    "name": "Screwdriver",
+    "price": 42,
+    "category": "cocktail",
+    "category_name": "雞尾酒",
+    "img": "assets/img/screwdriver.jpg",
+    "ing": "Vodka · Orange Juice"
+  },
+  {
+    "id": "aperol-spritz",
+    "name": "Aperol Spritz",
+    "price": 42,
+    "category": "cocktail",
+    "category_name": "雞尾酒",
+    "img": "assets/img/aperol-spritz.jpg",
+    "ing": "Aperol · Prosecco · Soda"
+  },
+  {
+    "id": "gin-sour",
+    "name": "Gin sour",
+    "price": 42,
+    "category": "cocktail",
+    "category_name": "雞尾酒",
+    "img": "assets/img/gin-sour.jpg",
+    "ing": "Gin · Lemon Juice · Syrup"
+  },
+  {
+    "id": "godfather",
+    "name": "Godfather",
+    "price": 42,
+    "category": "cocktail",
+    "category_name": "雞尾酒",
+    "img": "assets/img/godfather.jpg",
+    "ing": "Whisky · Amaretto"
+  },
+  {
+    "id": "pineapple-sour",
+    "name": "菠蘿酸特調",
+    "price": 42,
+    "category": "cocktail",
+    "category_name": "雞尾酒",
+    "img": "assets/img/pineapple-sour.jpg",
+    "ing": "Tequila · Rum · Pineapple"
+  },
+  {
+    "id": "tequila-sunrise",
+    "name": "龍舌蘭日出",
+    "price": 48,
+    "category": "cocktail",
+    "category_name": "雞尾酒",
+    "img": "assets/img/tequila-sunrise.jpg",
+    "ing": "Tequila · Orange Juice · Grenadine"
+  },
+  {
+    "id": "long-island",
+    "name": "長島冰茶",
+    "price": 48,
+    "category": "cocktail",
+    "category_name": "雞尾酒",
+    "img": "assets/img/long-island.jpg",
+    "ing": "Vodka · Gin · Rum · Tequila · Cola"
+  },
+  {
+    "id": "mulled-red-wine",
+    "name": "蘋果肉桂熱紅酒",
+    "price": 48,
+    "category": "cocktail",
+    "category_name": "雞尾酒",
+    "img": "assets/img/mulled-red-wine.jpg",
+    "ing": "Red Wine · Apple · Cinnamon"
+  },
+  {
+    "id": "b52",
+    "name": "B52",
+    "price": 48,
+    "category": "cocktail",
+    "category_name": "雞尾酒",
+    "img": "assets/img/b52.jpg",
+    "ing": "Kahlúa · Baileys · Grand Marnier"
+  },
+  {
+    "id": "margarita",
+    "name": "瑪格麗特",
+    "price": 48,
+    "category": "cocktail",
+    "category_name": "雞尾酒",
+    "img": "assets/img/margarita.jpg",
+    "ing": "Tequila · Triple Sec · Lime"
+  },
+  {
+    "id": "plum-pineapple-sparkler",
+    "name": "梅酒菠蘿氣泡雞尾酒",
+    "price": 48,
+    "category": "cocktail",
+    "category_name": "雞尾酒",
+    "img": "assets/img/plum-pineapple-sparkler.jpg",
+    "ing": "Plum Wine · Pineapple Juice · Soda"
+  },
+  {
+    "id": "blue-hawaii",
+    "name": "藍色夏威夷",
+    "price": 48,
+    "category": "cocktail",
+    "category_name": "雞尾酒",
+    "img": "assets/img/blue-hawaii.jpg",
+    "ing": "Rum · Blue Curaçao · Pineapple"
+  },
+  {
+    "id": "house-special-1",
+    "name": "招牌特調 1",
+    "price": 58,
+    "category": "cocktail",
+    "category_name": "雞尾酒",
+    "img": "assets/img/house-special-1.jpg",
+    "ing": "House Special"
+  },
+  {
+    "id": "house-special-2",
+    "name": "招牌特調 2",
+    "price": 58,
+    "category": "cocktail",
+    "category_name": "雞尾酒",
+    "img": "assets/img/house-special-2.jpg",
+    "ing": "House Special"
+  },
+  {
+    "id": "long-island-3l",
+    "name": "長島冰茶 3L 分享桶",
+    "price": 139,
+    "category": "cocktail",
+    "category_name": "雞尾酒",
+    "img": "assets/img/long-island-3l.jpg",
+    "ing": "Vodka · Gin · Rum · Tequila · Cola"
+  },
+  {
+    "id": "tequila-sunrise-3l",
+    "name": "龍舌蘭日出 3L 分享桶",
+    "price": 139,
+    "category": "cocktail",
+    "category_name": "雞尾酒",
+    "img": "assets/img/tequila-sunrise-3l.jpg",
+    "ing": "Tequila · Orange Juice · Grenadine"
+  },
+  {
+    "id": "tailor-made",
+    "name": "Tailor-made",
+    "price": null,
+    "category": "cocktail",
+    "category_name": "雞尾酒",
+    "img": "assets/img/tailor-made.jpg",
+    "sub": "由調酒師即場為你設計",
+    "ing": "Made To Order"
+  },
+  {
+    "id": "draft-lager-classic",
+    "name": "經典拉格生啤",
+    "price": 19,
+    "category": "draft",
+    "category_name": "精釀啤酒",
+    "img": "assets/img/draft-lager-classic.jpg",
+    "sub": "500ML"
+  },
+  {
+    "id": "draft-lager-pale",
+    "name": "淡色拉格生啤",
+    "price": 22,
+    "category": "draft",
+    "category_name": "精釀啤酒",
+    "img": "assets/img/draft-lager-pale.jpg",
+    "sub": "500ML"
+  },
+  {
+    "id": "draft-matcha",
+    "name": "抹茶風味生啤",
+    "price": 22,
+    "category": "draft",
+    "category_name": "精釀啤酒",
+    "img": "assets/img/draft-matcha.jpg",
+    "sub": "500ML"
+  },
+  {
+    "id": "draft-mango-sour",
+    "name": "芒果果香酸啤",
+    "price": 39,
+    "category": "draft",
+    "category_name": "精釀啤酒",
+    "img": "assets/img/draft-mango-sour.jpg",
+    "sub": "芒果木姜子混合啤酒 · 450ML"
+  },
+  {
+    "id": "draft-peach-sour",
+    "name": "蜜桃酸啤",
+    "price": 39,
+    "category": "draft",
+    "category_name": "精釀啤酒",
+    "img": "assets/img/draft-peach-sour.jpg",
+    "sub": "蜜桃番石榴柏林酸小麥 · 450ML"
+  },
+  {
+    "id": "draft-double-ipa",
+    "name": "雙倍乾投 IPA",
+    "price": 45,
+    "category": "draft",
+    "category_name": "精釀啤酒",
+    "img": "assets/img/draft-double-ipa.jpg",
+    "sub": "450ML"
+  },
+  {
+    "id": "draft-fruit-sour",
+    "name": "果泥酸艾爾",
+    "price": 45,
+    "category": "draft",
+    "category_name": "精釀啤酒",
+    "img": "assets/img/draft-fruit-sour.jpg",
+    "sub": "450ML"
+  },
+  {
+    "id": "herbal-liqueur",
+    "name": "草本利口酒",
+    "price": 25,
+    "category": "whisky",
+    "category_name": "威士忌",
+    "img": "assets/img/herbal-liqueur.jpg",
+    "sub": "杯售"
+  },
+  {
+    "id": "single-malt-12",
+    "name": "單一麥芽威士忌 12 年",
+    "price": 39,
+    "category": "whisky",
+    "category_name": "威士忌",
+    "img": "assets/img/single-malt-12.jpg",
+    "sub": "杯售"
+  },
+  {
+    "id": "single-malt-15",
+    "name": "單一麥芽威士忌 15 年",
+    "price": 40,
+    "category": "whisky",
+    "category_name": "威士忌",
+    "img": "assets/img/single-malt-15.jpg",
+    "sub": "杯售"
+  },
+  {
+    "id": "single-malt-15-sherry",
+    "name": "單一麥芽威士忌 15 年（雪莉桶）",
+    "price": 45,
+    "category": "whisky",
+    "category_name": "威士忌",
+    "img": "assets/img/single-malt-15-sherry.jpg",
+    "sub": "單一麥芽 · 杯售"
+  },
+  {
+    "id": "single-malt-taiwan",
+    "name": "單一麥芽威士忌（台灣）",
+    "price": 49,
+    "category": "whisky",
+    "category_name": "威士忌",
+    "img": "assets/img/single-malt-taiwan.jpg",
+    "sub": "杯售"
+  },
+  {
+    "id": "single-malt-18",
+    "name": "單一麥芽威士忌 18 年",
+    "price": 60,
+    "category": "whisky",
+    "category_name": "威士忌",
+    "img": "assets/img/single-malt-18.jpg",
+    "sub": "杯售"
+  },
+  {
+    "id": "cognac-vsop",
+    "name": "干邑 VSOP",
+    "price": 928,
+    "category": "whisky",
+    "category_name": "威士忌",
+    "img": "assets/img/cognac-vsop.jpg",
+    "sub": "瓶售"
+  },
+  {
+    "id": "cognac-vsop-bottle",
+    "name": "干邑 VSOP（瓶售）",
+    "price": 938,
+    "category": "whisky",
+    "category_name": "威士忌",
+    "img": "assets/img/cognac-vsop-bottle.jpg",
+    "sub": "瓶售"
+  },
+  {
+    "id": "single-malt-12-sherry",
+    "name": "單一麥芽威士忌 12 年（雪莉桶）",
+    "price": 1188,
+    "category": "whisky",
+    "category_name": "威士忌",
+    "img": "assets/img/single-malt-12-sherry.jpg",
+    "sub": "瓶售"
+  },
+  {
+    "id": "blackcurrant-special",
+    "name": "黑加侖特調",
+    "price": 28,
+    "category": "special",
+    "category_name": "基酒特調",
+    "img": "assets/img/blackcurrant-special.jpg",
+    "ing": "House Spirit · Blackcurrant"
+  },
+  {
+    "id": "pineapple-special",
+    "name": "菠蘿特調",
+    "price": 28,
+    "category": "special",
+    "category_name": "基酒特調",
+    "img": "assets/img/pineapple-special.jpg",
+    "ing": "House Spirit · Pineapple"
+  },
+  {
+    "id": "lemon-special",
+    "name": "檸檬特調",
+    "price": 28,
+    "category": "special",
+    "category_name": "基酒特調",
+    "img": "assets/img/lemon-special.jpg",
+    "ing": "House Spirit · Lemon"
+  },
+  {
+    "id": "pomelo-special",
+    "name": "柚子特調",
+    "price": 28,
+    "category": "special",
+    "category_name": "基酒特調",
+    "img": "assets/img/pomelo-special.jpg",
+    "ing": "House Spirit · Pomelo"
+  },
+  {
+    "id": "orange-special",
+    "name": "香橙特調",
+    "price": 28,
+    "category": "special",
+    "category_name": "基酒特調",
+    "img": "assets/img/orange-special.jpg",
+    "ing": "House Spirit · Orange"
+  },
+  {
+    "id": "da-ning-le",
+    "name": "大檸樂",
+    "price": 25,
+    "category": "zero",
+    "category_name": "無酒精特飲",
+    "img": "assets/img/da-ning-le.jpg",
+    "ing": "Lemon · Cola"
+  },
+  {
+    "id": "lemon-mint-soda",
+    "name": "檸檬薄荷氣泡水",
+    "price": 28,
+    "category": "zero",
+    "category_name": "無酒精特飲",
+    "img": "assets/img/lemon-mint-soda.jpg",
+    "ing": "Lemon · Mint · Soda"
+  },
+  {
+    "id": "house-special-3",
+    "name": "招牌特調 3",
+    "price": 28,
+    "category": "zero",
+    "category_name": "無酒精特飲",
+    "img": "assets/img/house-special-3.jpg",
+    "ing": "House Special"
+  },
+  {
+    "id": "house-special-4",
+    "name": "招牌特調 4",
+    "price": 28,
+    "category": "zero",
+    "category_name": "無酒精特飲",
+    "img": "assets/img/house-special-4.jpg",
+    "ing": "House Special"
+  },
+  {
+    "id": "cold-pressed-pineapple",
+    "name": "冷壓菠蘿汁",
+    "price": 28,
+    "category": "zero",
+    "category_name": "無酒精特飲",
+    "img": "assets/img/cold-pressed-pineapple.jpg",
+    "ing": "Cold-pressed Pineapple"
+  },
+  {
+    "id": "orange-soda",
+    "name": "心想事橙氣泡水",
+    "price": 28,
+    "category": "zero",
+    "category_name": "無酒精特飲",
+    "img": "assets/img/orange-soda.jpg",
+    "ing": "Orange · Soda"
+  },
+  {
+    "id": "house-special-5",
+    "name": "招牌特調 5",
+    "price": 28,
+    "category": "zero",
+    "category_name": "無酒精特飲",
+    "img": "assets/img/house-special-5.jpg",
+    "ing": "House Special"
+  },
+  {
+    "id": "lemon-honey-yuzu-tea",
+    "name": "檸檬蜂蜜柚子茶",
+    "price": 28,
+    "category": "zero",
+    "category_name": "無酒精特飲",
+    "img": "assets/img/lemon-honey-yuzu-tea.jpg",
+    "sub": "冰 / 熱",
+    "ing": "Lemon · Honey · Yuzu Tea"
+  },
+  {
+    "id": "fresh-lemon-juice",
+    "name": "一口鮮檸檬汁",
+    "price": 28,
+    "category": "zero",
+    "category_name": "無酒精特飲",
+    "img": "assets/img/fresh-lemon-juice.jpg",
+    "ing": "Fresh Lemon Juice"
+  },
+  {
+    "id": "mangosteen-juice",
+    "name": "NFC 冰鮮山竹汁",
+    "price": 28,
+    "category": "zero",
+    "category_name": "無酒精特飲",
+    "img": "assets/img/mangosteen-juice.jpg",
+    "ing": "Mangosteen Juice"
+  },
+  {
+    "id": "sparkling-lemon",
+    "name": "有氣檸賓",
+    "price": 28,
+    "category": "zero",
+    "category_name": "無酒精特飲",
+    "img": "assets/img/sparkling-lemon.jpg",
+    "ing": "Lemon · Soda"
+  },
+  {
+    "id": "hot-lemon-tea",
+    "name": "熱檸檬紅茶 解酒特調",
+    "price": 30,
+    "category": "zero",
+    "category_name": "無酒精特飲",
+    "img": "assets/img/hot-lemon-tea.jpg",
+    "sub": "熱飲",
+    "ing": "Hot Lemon · Black Tea"
+  },
+  {
+    "id": "sunset-zero-proof",
+    "name": "日落無酒精特飲",
+    "price": 35,
+    "category": "zero",
+    "category_name": "無酒精特飲",
+    "img": "assets/img/sunset-zero-proof.jpg",
+    "ing": "Orange"
+  },
+  {
+    "id": "honey-orchid",
+    "name": "蜂蜜蘭香特飲",
+    "price": 68,
+    "category": "zero",
+    "category_name": "無酒精特飲",
+    "img": "assets/img/honey-orchid.jpg",
+    "ing": "Honey · Oolong Tea"
+  },
+  {
+    "id": "grapefruit-coriander",
+    "name": "葡萄柚芫荽特飲",
+    "price": 19,
+    "category": "sparkling",
+    "category_name": "氣泡特飲",
+    "img": "assets/img/grapefruit-coriander.jpg",
+    "ing": "Grapefruit · Coriander · Soda Water"
+  },
+  {
+    "id": "lemongrass-vinegar",
+    "name": "香茅果醋",
+    "price": 19,
+    "category": "sparkling",
+    "category_name": "氣泡特飲",
+    "img": "assets/img/lemongrass-vinegar.jpg",
+    "ing": "Lemongrass · Vinegar · Soda Water"
+  },
+  {
+    "id": "thai-mojito",
+    "name": "泰式莫吉托",
+    "price": 25,
+    "category": "sparkling",
+    "category_name": "氣泡特飲",
+    "img": "assets/img/thai-mojito.jpg",
+    "ing": "Mint · Lime · Soda Water"
+  },
+  {
+    "id": "soda-mojito",
+    "name": "蘇打莫吉托",
+    "price": 25,
+    "category": "sparkling",
+    "category_name": "氣泡特飲",
+    "img": "assets/img/soda-mojito.jpg",
+    "ing": "Mint · Lime · Soda Water"
+  },
+  {
+    "id": "orange-burst",
+    "name": "桔爆橙",
+    "price": 25,
+    "category": "sparkling",
+    "category_name": "氣泡特飲",
+    "img": "assets/img/orange-burst.jpg",
+    "ing": "Orange · Soda Water"
+  },
+  {
+    "id": "jackfruit-salt",
+    "name": "海鹽菠蘿蜜",
+    "price": 25,
+    "category": "sparkling",
+    "category_name": "氣泡特飲",
+    "img": "assets/img/jackfruit-salt.jpg",
+    "ing": "Jackfruit · Sea Salt · Soda Water"
+  },
+  {
+    "id": "longan-coconut",
+    "name": "龍眼青椰",
+    "price": 25,
+    "category": "sparkling",
+    "category_name": "氣泡特飲",
+    "img": "assets/img/longan-coconut.jpg",
+    "ing": "Longan · Young Coconut · Soda Water"
+  },
+  {
+    "id": "nanyang-pineapple",
+    "name": "南洋菠蘿",
+    "price": 25,
+    "category": "sparkling",
+    "category_name": "氣泡特飲",
+    "img": "assets/img/nanyang-pineapple.jpg",
+    "ing": "Pineapple · Soda Water"
+  },
+  {
+    "id": "golden-ale",
+    "name": "金色艾爾",
+    "price": 28,
+    "category": "cans",
+    "category_name": "環球特選啤酒",
+    "img": "assets/img/golden-ale.jpg",
+    "sub": "ABV 4.6%"
+  },
+  {
+    "id": "lager-beer",
+    "name": "拉格啤酒",
+    "price": 28,
+    "category": "cans",
+    "category_name": "環球特選啤酒",
+    "img": "assets/img/lager-beer.jpg",
+    "sub": "ABV 8.4%"
+  },
+  {
+    "id": "stout-beer",
+    "name": "世濤啤酒",
+    "price": 29,
+    "category": "cans",
+    "category_name": "環球特選啤酒",
+    "img": "assets/img/stout-beer.jpg",
+    "sub": "愛爾蘭入口 · ABV 4.6%"
+  },
+  {
+    "id": "sea-salt-gose",
+    "name": "海鹽古斯酸啤",
+    "price": 35,
+    "category": "cans",
+    "category_name": "環球特選啤酒",
+    "img": "assets/img/sea-salt-gose.jpg"
+  },
+  {
+    "id": "mango-gose",
+    "name": "芒果海鹽古斯酸啤",
+    "price": 35,
+    "category": "cans",
+    "category_name": "環球特選啤酒",
+    "img": "assets/img/mango-gose.jpg"
+  },
+  {
+    "id": "starfruit-gose",
+    "name": "楊桃油柑古斯酸啤",
+    "price": 38,
+    "category": "cans",
+    "category_name": "環球特選啤酒",
+    "img": "assets/img/starfruit-gose.jpg"
+  },
+  {
+    "id": "olive-cider",
+    "name": "油柑西打",
+    "price": 38,
+    "category": "cans",
+    "category_name": "環球特選啤酒",
+    "img": "assets/img/olive-cider.jpg"
+  },
+  {
+    "id": "triple-ipa",
+    "name": "三倍乾投 IPA",
+    "price": 48,
+    "category": "cans",
+    "category_name": "環球特選啤酒",
+    "img": "assets/img/triple-ipa.jpg",
+    "sub": "ABV 10%"
+  },
+  {
+    "id": "house-wine",
+    "name": "House Wine（杯售）",
+    "price": 25,
+    "category": "wine",
+    "category_name": "紅酒",
+    "img": "assets/img/house-wine.jpg",
+    "sub": "杯售"
+  },
+  {
+    "id": "riesling",
+    "name": "雷司令白酒",
+    "price": 175,
+    "category": "wine",
+    "category_name": "紅酒",
+    "img": "assets/img/riesling.jpg",
+    "sub": "瓶售"
+  },
+  {
+    "id": "chardonnay",
+    "name": "霞多麗白酒",
+    "price": 180,
+    "category": "wine",
+    "category_name": "紅酒",
+    "img": "assets/img/chardonnay.jpg",
+    "sub": "瓶售"
+  },
+  {
+    "id": "sauvignon-blanc",
+    "name": "長相思白酒",
+    "price": 185,
+    "category": "wine",
+    "category_name": "紅酒",
+    "img": "assets/img/sauvignon-blanc.jpg",
+    "sub": "瓶售"
+  },
+  {
+    "id": "shisha-2head",
+    "name": "水煙 · 雙頭",
+    "price": 88,
+    "category": "shisha",
+    "category_name": "Shisha",
+    "img": "assets/img/shisha.jpg"
+  },
+  {
+    "id": "shisha-4head",
+    "name": "水煙 · 四頭",
+    "price": 118,
+    "category": "shisha",
+    "category_name": "Shisha",
+    "img": "assets/img/shisha.jpg"
+  }
+]
