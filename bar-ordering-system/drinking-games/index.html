@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<meta name="color-scheme" content="dark" />
+<link rel="icon" href="data:," />
+<title>SAMPLE BAR 酒桌遊戲</title>
+<style>
+  :root{
+    --bg:#0b0906; --panel:#171310; --panel-2:#201a14; --line:#322a1f; --line-soft:#241d15;
+    --gold:#e3c078; --gold-deep:#b8934a; --gold-ink:#1a1409;
+    --cream:#f5efe0; --muted:#b8ab8f; --faint:#8a7d63; --radius:14px;
+  }
+  *{ box-sizing:border-box; }
+  html{ -webkit-text-size-adjust:100%; }
+  body{
+    margin:0; background:var(--bg); color:var(--cream);
+    font-family:system-ui, -apple-system, "PingFang TC", "Microsoft JhengHei", sans-serif;
+    line-height:1.55; padding-bottom:env(safe-area-inset-bottom);
+  }
+  a{ color:inherit; }
+  :focus-visible{ outline:2px solid var(--gold); outline-offset:2px; }
+  .wrap{ max-width:640px; margin:0 auto; padding:0 16px 40px; }
+  .topbar{
+    display:flex; align-items:center; gap:12px; padding:14px 0 6px;
+  }
+  .topbar .back{ color:var(--muted); text-decoration:none; font-size:14px; white-space:nowrap; }
+  .topbar .back:active{ color:var(--gold); }
+  .brand{
+    margin-left:auto; text-align:right; font-family:"Songti TC", "PMingLiU", serif;
+    font-weight:700; letter-spacing:.14em; font-size:13px; white-space:nowrap;
+  }
+  .brand small{ display:block; font-family:system-ui, sans-serif; font-weight:500; letter-spacing:.32em; font-size:8px; color:var(--gold); }
+  header{ padding:14px 0 4px; }
+  header h1{ font-family:"Songti TC", "PMingLiU", serif; font-size:26px; font-weight:700; margin:0 0 4px; letter-spacing:.02em; }
+  header h1 span{ color:var(--gold); }
+  header p{ margin:0; color:var(--muted); font-size:14px; }
+  .grid{ display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-top:18px; }
+  @media (max-width:420px){ .grid{ grid-template-columns:1fr; } }
+  .card{
+    display:flex; flex-direction:column; gap:4px; min-height:132px;
+    background:var(--panel); border:1px solid var(--line); border-radius:var(--radius);
+    padding:16px; text-decoration:none;
+  }
+  .card:active{ border-color:var(--gold); background:var(--panel-2); }
+  .card .ico{ font-size:30px; line-height:1.2; }
+  .card h2{ margin:0; font-size:17px; font-family:"Songti TC", "PMingLiU", serif; font-weight:700; }
+  .card p{ margin:0; color:var(--muted); font-size:13px; }
+  .card .tag{ margin-top:auto; padding-top:8px; color:var(--gold); font-size:12px; letter-spacing:.08em; }
+  .order-link{
+    display:flex; flex-direction:column; align-items:center; justify-content:center; gap:2px;
+    width:100%; margin-top:16px; min-height:3.4rem; padding:8px 12px;
+    border:1px solid var(--gold); color:var(--gold); border-radius:12px;
+    font-weight:700; font-size:15.5px; text-decoration:none; text-align:center;
+  }
+  .order-link small{ font-weight:500; font-size:12.5px; color:var(--muted); }
+  .foot-note{ color:var(--faint); font-size:12.5px; text-align:center; padding:26px 0 0; margin:0; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="topbar">
+    <a class="back" href="../index.html">← 返去點餐</a>
+    <div class="brand">範例酒吧<small>SAMPLE BAR</small></div>
+  </div>
+  <header>
+    <h1>酒桌<span>遊戲</span></h1>
+    <p>等酒嗰陣，玩住先。一個人玩得，全枱一齊玩更好玩。</p>
+  </header>
+  <div class="grid">
+    <a class="card" href="dice.html">
+      <span class="ico" aria-hidden="true">🎲</span>
+      <h2>大話骰</h2>
+      <p>電子骰盅，搖完偷睇。加埋 789 玩法，搖到 7、8、9 就要飲。</p>
+      <span class="tag">2 – 12 人 · 唔使道具</span>
+    </a>
+    <a class="card" href="wheel.html">
+      <span class="ico" aria-hidden="true">🎡</span>
+      <h2>轉盤</h2>
+      <p>轉一轉，命運話你知：飲半杯、乾杯、唱歌，定係講秘密。</p>
+      <span class="tag">全枱一齊玩</span>
+    </a>
+    <a class="card" href="quiz.html">
+      <span class="ico" aria-hidden="true">🍸</span>
+      <h2>雞尾酒猜猜看</h2>
+      <p>睇住成份估返係邊杯酒。十題一局，睇下你識唔識飲。</p>
+      <span class="tag">1 人 · 10 題一局</span>
+    </a>
+    <a class="card" href="truth.html">
+      <span class="ico" aria-hidden="true">💬</span>
+      <h2>真心話大冒險</h2>
+      <p>輕鬆、中等、大膽三個級別，抽一張，答咗佢或者做咗佢。</p>
+      <span class="tag">3 個級別 · 真心話 / 大冒險</span>
+    </a>
+  </div>
+  <a class="order-link" href="../index.html">返去點餐<small>想飲多杯？即刻再叫</small></a>
+  <p class="foot-note">理性飲酒，未成年請勿飲酒。飲酒後請勿駕駛。</p>
+</div>
+</body>
+</html>

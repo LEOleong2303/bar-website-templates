@@ -1,0 +1,210 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<meta name="color-scheme" content="dark" />
+<link rel="icon" href="data:," />
+<title>真心話大冒險 · SAMPLE BAR 酒桌遊戲</title>
+<style>
+  :root{
+    --bg:#0b0906; --panel:#171310; --panel-2:#201a14; --line:#322a1f; --line-soft:#241d15;
+    --gold:#e3c078; --gold-deep:#b8934a; --gold-ink:#1a1409;
+    --cream:#f5efe0; --muted:#b8ab8f; --faint:#8a7d63; --radius:14px;
+  }
+  *{ box-sizing:border-box; }
+  html{ -webkit-text-size-adjust:100%; }
+  body{
+    margin:0; background:var(--bg); color:var(--cream);
+    font-family:system-ui, -apple-system, "PingFang TC", "Microsoft JhengHei", sans-serif;
+    line-height:1.55; padding-bottom:env(safe-area-inset-bottom);
+  }
+  button{ font:inherit; color:inherit; background:none; border:none; cursor:pointer; min-height:2.75rem; }
+  :focus-visible{ outline:2px solid var(--gold); outline-offset:2px; }
+  .wrap{ max-width:560px; margin:0 auto; padding:0 16px 40px; }
+  .topbar{ display:flex; align-items:center; gap:12px; padding:14px 0 6px; }
+  .topbar .back{ color:var(--muted); text-decoration:none; font-size:14px; white-space:nowrap; }
+  .topbar .back:active{ color:var(--gold); }
+  .brand{
+    margin-left:auto; text-align:right; font-family:"Songti TC", "PMingLiU", serif;
+    font-weight:700; letter-spacing:.14em; font-size:13px; white-space:nowrap;
+  }
+  .brand small{ display:block; font-family:system-ui, sans-serif; font-weight:500; letter-spacing:.32em; font-size:8px; color:var(--gold); }
+  header{ padding:14px 0 4px; }
+  header h1{ font-family:"Songti TC", "PMingLiU", serif; font-size:24px; font-weight:700; margin:0 0 4px; }
+  header h1 span{ color:var(--gold); }
+  header p{ margin:0; color:var(--muted); font-size:14px; }
+  .seg{
+    display:flex; background:var(--panel); border:1px solid var(--line);
+    border-radius:999px; padding:3px; margin-top:16px;
+  }
+  .seg button{
+    flex:1; min-height:2.5rem; padding:0 10px; border-radius:999px;
+    font-weight:700; font-size:14px; color:var(--muted);
+  }
+  .seg button[aria-pressed="true"]{ background:var(--gold); color:var(--gold-ink); }
+  .seg.two{ margin-top:10px; }
+  .card{
+    background:var(--panel); border:1px solid var(--line); border-radius:var(--radius);
+    padding:26px 18px; margin-top:14px; text-align:center; min-height:190px;
+    display:flex; flex-direction:column; align-items:center; justify-content:center; gap:8px;
+  }
+  .card .lbl{ color:var(--faint); font-size:12px; letter-spacing:.18em; }
+  .card .prompt{ font-family:"Songti TC", "PMingLiU", serif; font-size:20px; font-weight:700; line-height:1.6; margin:0; }
+  .card .meta{ color:var(--muted); font-size:13px; }
+  .btn-row{ display:flex; gap:10px; margin-top:14px; }
+  .btn-gold{
+    flex:1; background:var(--gold); color:var(--gold-ink); font-weight:700; font-size:17px;
+    border-radius:12px; padding:13px 10px;
+  }
+  .btn-gold:active{ background:var(--gold-deep); }
+  .rule{ color:var(--faint); font-size:12.5px; text-align:center; margin:14px 0 0; }
+  .foot-note{ color:var(--faint); font-size:12.5px; text-align:center; padding:26px 0 0; margin:0; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="topbar">
+    <a class="back" href="index.html">← 酒桌遊戲</a>
+    <div class="brand">範例酒吧<small>SAMPLE BAR</small></div>
+  </div>
+  <header>
+    <h1>真心話<span>大冒險</span></h1>
+    <p>揀個級別，抽一張。答咗佢，或者做咗佢——唔想做就飲一杯代替。</p>
+  </header>
+
+  <div class="seg" role="group" aria-label="級別">
+    <button type="button" data-level="easy" aria-pressed="true">輕鬆</button>
+    <button type="button" data-level="medium" aria-pressed="false">中等</button>
+    <button type="button" data-level="wild" aria-pressed="false">大膽</button>
+  </div>
+  <div class="seg two" role="group" aria-label="種類">
+    <button type="button" data-kind="truth" aria-pressed="true">真心話</button>
+    <button type="button" data-kind="dare" aria-pressed="false">大冒險</button>
+  </div>
+
+  <div class="card" aria-live="polite">
+    <div class="lbl" id="card-label">輕鬆 · 真心話</div>
+    <p class="prompt" id="prompt">撳下面「抽一張」開始。</p>
+    <div class="meta" id="card-meta"></div>
+  </div>
+  <div class="btn-row">
+    <button type="button" class="btn-gold" id="draw">抽一張</button>
+  </div>
+  <p class="rule">開波前講定底線：唔問得、唔做得嘅範圍，全枱一齊定。玩得開心，唔好玩到唔開心。</p>
+  <p class="foot-note">理性飲酒，未成年請勿飲酒。飲酒後請勿駕駛。</p>
+</div>
+<script>
+(function(){
+  "use strict";
+  var LEVEL_NAMES = { easy: "輕鬆", medium: "中等", wild: "大膽" };
+  var KIND_NAMES = { truth: "真心話", dare: "大冒險" };
+  var PROMPTS = {
+    easy: {
+      truth: [
+        "你第一次飲酒係幾多歲？同邊個一齊？",
+        "講一件你最近做過最蠢嘅事。",
+        "你手機入面最常用嘅三個 App 係咩？",
+        "如果可以即刻去旅行，你最想去邊度？",
+        "你最鍾意食嘅宵夜係咩？",
+        "講一個你細個嗰陣嘅花名。",
+        "你最近一次笑到停唔到係因為咩事？",
+        "如果聽晚可以同任何一個人食飯，你會揀邊個？"
+      ],
+      dare: [
+        "用最誇張嘅語氣讀出餐牌上面一款酒嘅名。",
+        "即刻請全枱飲一杯水，話「為健康乾杯」。",
+        "用廣東話唱一句你最鍾意嘅歌。",
+        "學一個動物叫三聲，全枱估係咩動物。",
+        "同你左手邊嗰位握手，講「今晚好高興識你」。",
+        "用五秒講出五種酒嘅名。",
+        "即刻影一張全枱合照。",
+        "扮調酒師咁搖一搖你手上面嗰杯。"
+      ]
+    },
+    medium: {
+      truth: [
+        "你有冇試過為咗一個人去學飲酒？係邊個？",
+        "講一次你飲醉之後做過最瘀嘅事。",
+        "你心目中完美嘅約會係點樣？",
+        "你有冇試過暗戀一個人超過一年？",
+        "如果可以刪走一段回憶，你會刪邊段？",
+        "你覺得自己最大嘅優點同缺點係咩？",
+        "你最近一次喊係幾時？因為咩事？",
+        "講一件你從來冇同人講過嘅秘密。"
+      ],
+      dare: [
+        "打電話畀你通訊錄第一個人，話「我而家喺SAMPLE BAR，你過嚟啦」。",
+        "請全枱其中一位飲一杯，由你揀。",
+        "用你對面嗰位嘅口吻講一句說話，全枱估你扮邊個。",
+        "即刻跳一段你識嘅舞，十秒就夠。",
+        "下一杯由全枱幫你揀，唔可以拒絕。",
+        "對住你右手邊嗰位講一句讚美，要認真唔可以笑。",
+        "用三種唔同聲線講「今晚唔醉無歸」。",
+        "即刻發一條朋友圈：今晚喺SAMPLE BAR 好開心，唔可以提及任何人名。"
+      ]
+    },
+    wild: {
+      truth: [
+        "你有冇試過一見鍾情？對方知唔知？",
+        "講一次你為咗愛情做過最瘋狂嘅事。",
+        "你覺得今晚枱上面邊個最有魅力？",
+        "你有冇試過同一個人分手之後後悔？",
+        "如果而家可以向一個人表白，你會揀邊個？",
+        "講一個你一直想試但未試過嘅大膽經歷。",
+        "你覺得自己係專一嘅人定係花心嘅人？點解？",
+        "你有冇試過為咗一個人去咗一個完全唔熟嘅地方？"
+      ],
+      dare: [
+        "同枱上面你覺得最有魅力嗰位乾一杯，望住佢對眼講「Cheers」。",
+        "扮你最鍾意嘅明星行一個 catwalk，行到門口再行返嚟。",
+        "下一輪由你買單請全枱飲一杯（限一杯）。",
+        "即刻錄一段十秒短片講「SAMPLE BAR 今晚最正」，發畀你最好嘅朋友。",
+        "同全枱每人碰杯一次，要講得出每個人嘅名。",
+        "揀一個人，由佢幫你點下一杯，乜都唔可以問。",
+        "站起身，大聲講「我宣布，今晚我係全場最開心嘅人」。",
+        "用你手機隨機播一首歌，即刻跟住唱副歌部分。"
+      ]
+    }
+  };
+  var level = "easy", kind = "truth", lastDrawn = "", drawnCount = 0;
+  function $(id){ return document.getElementById(id); }
+  function setPressed(group, value){
+    document.querySelectorAll("[data-" + group + "]").forEach(function(b){
+      b.setAttribute("aria-pressed", b.getAttribute("data-" + group) === value ? "true" : "false");
+    });
+  }
+  document.querySelectorAll("[data-level]").forEach(function(b){
+    b.addEventListener("click", function(){
+      level = b.getAttribute("data-level");
+      setPressed("level", level);
+      lastDrawn = "";
+      updateLabel();
+    });
+  });
+  document.querySelectorAll("[data-kind]").forEach(function(b){
+    b.addEventListener("click", function(){
+      kind = b.getAttribute("data-kind");
+      setPressed("kind", kind);
+      lastDrawn = "";
+      updateLabel();
+    });
+  });
+  function updateLabel(){
+    $("card-label").textContent = LEVEL_NAMES[level] + " · " + KIND_NAMES[kind];
+  }
+  $("draw").addEventListener("click", function(){
+    var pool = PROMPTS[level][kind];
+    var pick = pool[Math.floor(Math.random() * pool.length)];
+    var guard = 0;
+    while (pick === lastDrawn && pool.length > 1 && guard < 10){ pick = pool[Math.floor(Math.random() * pool.length)]; guard++; }
+    lastDrawn = pick;
+    drawnCount++;
+    $("prompt").textContent = pick;
+    $("card-meta").textContent = "第 " + drawnCount + " 張 · 呢個組合仲有 " + pool.length + " 張";
+    updateLabel();
+  });
+})();
+</script>
+</body>
+</html>
