@@ -338,6 +338,7 @@
             <input type="text" id="add-name" placeholder="飲品名（例如：青檸特調）" />
             <input type="text" id="add-sub" placeholder="副標題（可留空，例如 500ML / 杯售）" />
             <input type="text" id="add-ing" placeholder="英文成份（可留空，例如 Rum · Cola · Lime）" />
+            <input type="text" id="add-opts" placeholder="選項（可留空，例如：單罐 28 / 半打 160 / 一打 302）" />
             <div class="row2">
               <input type="number" id="add-price" min="0" step="1" placeholder="價錢（留空 = 面議）" />
               <select id="add-cat"></select>
@@ -396,7 +397,7 @@
         { id:"wine",     name:"紅酒", en:"WINE" },
         { id:"shisha",   name:"Shisha", en:"SHISHA" }
       ];
-      var PHOTOS = ["aperol-spritz", "b52", "blackcurrant-special", "blue-hawaii", "chardonnay", "cognac-vsop", "cognac-vsop-bottle", "cold-pressed-pineapple", "cuba-libre", "da-ning-le", "draft-double-ipa", "draft-fruit-sour", "draft-lager-classic", "draft-lager-pale", "draft-mango-sour", "draft-matcha", "draft-peach-sour", "fresh-lemon-juice", "gin-fizz", "gin-sour", "gin-tonic", "godfather", "golden-ale", "grapefruit-coriander", "herbal-liqueur", "highball", "honey-orchid", "hot-lemon-tea", "house-special-1", "house-special-2", "house-special-3", "house-special-4", "house-special-5", "house-wine", "jackfruit-salt", "lager-beer", "lemon-honey-yuzu-tea", "lemon-mint-soda", "lemon-plum-high", "lemon-special", "lemongrass-vinegar", "long-island", "long-island-3l", "longan-coconut", "mango-gose", "mangosteen-juice", "margarita", "millionaire", "mojito", "mulled-red-wine", "nanyang-pineapple", "olive-cider", "orange-burst", "orange-soda", "orange-special", "pineapple-sour", "pineapple-special", "plum-pineapple-sparkler", "pomelo-special", "riesling", "sauvignon-blanc", "screwdriver", "sea-salt-gose", "shisha", "single-malt-12", "single-malt-12-sherry", "single-malt-15", "single-malt-15-sherry", "single-malt-18", "single-malt-taiwan", "soda-mojito", "sparkling-lemon", "starfruit-gose", "stout-beer", "sunset-zero-proof", "tailor-made", "tequila-sunrise", "tequila-sunrise-3l", "thai-mojito", "triple-ipa", "whisky-sour"];
+      var PHOTOS = ["aperol-spritz", "b52", "baimayong-caimi", "blackcurrant-special", "blue-hawaii", "chardonnay", "cocoa-300", "cognac-vsop", "cognac-vsop-bottle", "cold-pressed-pineapple", "cuba-libre", "da-ning-le", "draft-double-ipa", "draft-fruit-sour", "draft-lager-classic", "draft-lager-pale", "draft-mango-sour", "draft-matcha", "draft-peach-sour", "fresh-lemon-juice", "gin-fizz", "gin-sour", "gin-tonic", "godfather", "golden-ale", "grapefruit-coriander", "herbal-liqueur", "highball", "honey-orchid", "hot-lemon-tea", "house-special-1", "house-special-2", "house-special-3", "house-special-4", "house-special-5", "house-wine", "irish-cocoa", "jackfruit-salt", "lager-beer", "lemon-honey-yuzu-tea", "lemon-mint-soda", "lemon-plum-high", "lemon-special", "lemongrass-vinegar", "long-island", "long-island-3l", "longan-coconut", "mango-gose", "mangosteen-juice", "margarita", "millionaire", "mojito", "mulled-red-wine", "nanyang-pineapple", "olive-cider", "orange-burst", "orange-soda", "orange-special", "pineapple-sour", "pineapple-special", "plum-pineapple-sparkler", "pomelo-special", "riesling", "sauvignon-blanc", "screwdriver", "sea-salt-gose", "shisha", "single-malt-12", "single-malt-12-sherry", "single-malt-15", "single-malt-15-sherry", "single-malt-18", "single-malt-taiwan", "soda-mojito", "sparkling-lemon", "starfruit-gose", "stout-beer", "sunset-zero-proof", "tailor-made", "tequila-sunrise", "tequila-sunrise-3l", "thai-mojito", "triple-ipa", "whisky-sour"];
       var MENU = [];
       var curCat = "cocktail";
       var authed = false;
@@ -424,6 +425,22 @@
       function thumbHtml(name, img, cls){
         if (img) return '<img class="' + cls + '" src="' + img + '" alt="' + esc(name) + '" decoding="async" />';
         return '<span class="' + cls + ' thumb-ph">' + esc(name.charAt(0)) + '</span>';
+      }
+      function optsText(opts){
+        if (!opts || !opts.length) return "";
+        return opts.map(function(o){ return o.label + " " + o.price; }).join(" / ");
+      }
+      function parseOpts(text){
+        var parts = String(text || "").split(/[\/\uFF0C,]/);
+        var out = [];
+        for (var i = 0; i < parts.length; i++){
+          var str = parts[i].trim();
+          if (!str) continue;
+          var m = str.match(/^(.*\S)\s+(\d+)$/);
+          if (!m) return null;
+          out.push({ label: m[1], price: parseInt(m[2], 10) });
+        }
+        return out;
       }
       function catName(id){
         for (var i = 0; i < CATS.length; i++) if (CATS[i].id === id) return CATS[i].name;
@@ -458,6 +475,7 @@
             '<input type="text" data-f="name" value="' + esc(m.name) + '" placeholder="飲品名" />' +
             '<input type="text" data-f="sub" value="' + esc(m.sub || "") + '" placeholder="副標題（可留空，例如 500ML / 杯售）" />' +
             '<input type="text" data-f="ing" value="' + esc(m.ing || "") + '" placeholder="英文成份（可留空，例如 Rum · Cola · Lime）" />' +
+            '<input type="text" data-f="opts" value="' + esc(optsText(m.opts)) + '" placeholder="選項（可留空，例如：單罐 28 / 半打 160 / 一打 302）" />' +
             '<div class="row2">' +
               '<input type="number" data-f="price" min="0" step="1" value="' + (m.price === null ? "" : m.price) + '" placeholder="價錢（留空 = 面議）" />' +
               '<select data-f="category">' + CATS.map(function(c){ return '<option value="' + c.id + '"' + (c.id === m.category ? ' selected' : '') + '>' + c.name + '</option>'; }).join("") + '</select>' +
@@ -487,6 +505,13 @@
         } else if (f === "category"){
           m.category = t.value;
           m.category_name = catName(t.value);
+        } else if (f === "opts"){
+          if (t.value.trim() === ""){ delete m.opts; }
+          else {
+            var parsed = parseOpts(t.value);
+            if (parsed && parsed.length) m.opts = parsed;
+            else { t.value = optsText(m.opts); setMsg("選項格式唔啱，用「標籤 價錢 / 標籤 價錢」。", "err"); }
+          }
         } else {
           m[f] = t.value;
         }
@@ -513,6 +538,9 @@
         if (!name){ setMsg("請填飲品名。", "err"); $("add-name").focus(); return; }
         var priceVal = $("add-price").value.trim();
         var cat = $("add-cat").value;
+        var optsVal = $("add-opts").value.trim();
+        var addOpts = optsVal === "" ? null : parseOpts(optsVal);
+        if (optsVal !== "" && (!addOpts || !addOpts.length)){ setMsg("選項格式唔啱，用「標籤 價錢 / 標籤 價錢」。", "err"); $("add-opts").focus(); return; }
         var item = {
           id: "custom-" + Date.now().toString(36),
           name: name,
@@ -525,8 +553,9 @@
         };
         if (!item.sub) delete item.sub;
         if (!item.ing) delete item.ing;
+        if (addOpts) item.opts = addOpts;
         MENU.push(item);
-        $("add-name").value = ""; $("add-sub").value = ""; $("add-ing").value = ""; $("add-price").value = ""; $("add-img").value = "";
+        $("add-name").value = ""; $("add-sub").value = ""; $("add-ing").value = ""; $("add-opts").value = ""; $("add-price").value = ""; $("add-img").value = "";
         curCat = cat; renderCats(); renderAdmin();
         setMsg("已加入「" + name + "」，記得撳「儲存酒單」。", "");
       });

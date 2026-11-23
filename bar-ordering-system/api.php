@@ -230,7 +230,7 @@ function send_telegram_order($order) {
     $lines[] = '🔔 新訂單 #' . (isset($order['no']) ? $order['no'] : '');
     $lines[] = isset($order['seat']) ? $order['seat'] : '';
     foreach ($order['items'] as $it) {
-        $lines[] = $it['n'] . ' ×' . $it['q'];
+        $lines[] = $it['n'] . (!empty($it['o']) ? '（' . $it['o'] . '）' : '') . ' ×' . $it['q'];
     }
     $lines[] = '總數 ¥' . $order['total'];
     $lines[] = '備註：' . (trim($order['note']) !== '' ? $order['note'] : '無');
@@ -356,15 +356,38 @@ switch ($action) {
             if ($m['price'] === null) {
                 json_error('呢款要問吧台，唔可以直接落單', 400);
             }
-            $order_items[] = array(
+            // 選項（冷/熱、半打/一打、1升）：價錢以揀咗嘅選項為準；
+            // 冇傳選項就用第一個（舊版客人頁面都落到單）。
+            $unitPrice = (int) $m['price'];
+            $optLabel = '';
+            if (isset($m['opts']) && is_array($m['opts']) && count($m['opts']) > 0) {
+                $opt = isset($it['opt']) ? (string) $it['opt'] : '';
+                $found = null;
+                foreach ($m['opts'] as $o) {
+                    if (isset($o['label']) && (string) $o['label'] === $opt) { $found = $o; break; }
+                }
+                if ($found === null && $opt === '') {
+                    $found = $m['opts'][0];
+                }
+                if ($found === null) {
+                    json_error('選項唔啱', 400);
+                }
+                $optLabel = (string) $found['label'];
+                $unitPrice = (int) $found['price'];
+            }
+            $orderItem = array(
                 'id'  => $id,
                 'n'   => $m['name'],
-                'p'   => (int) $m['price'],
+                'p'   => $unitPrice,
                 'q'   => $qty,
                 'img' => isset($m['img']) ? (string) $m['img'] : '',
                 'ing' => isset($m['ing']) ? (string) $m['ing'] : '',
             );
-            $total += (int) $m['price'] * $qty;
+            if ($optLabel !== '') {
+                $orderItem['o'] = $optLabel;
+            }
+            $order_items[] = $orderItem;
+            $total += $unitPrice * $qty;
         }
 
         $saved = with_orders_lock(function (&$orders) use ($order_items, $total, $note, $seat) {
@@ -532,6 +555,34 @@ switch ($action) {
             if ($img !== '' && !preg_match('#^assets/img/[a-z0-9\-]+\.(jpg|jpeg|png|webp)$#', $img)) {
                 json_error('相片路徑唔啱', 400);
             }
+            $opts = array_key_exists('opts', $it) ? $it['opts'] : null;
+            $cleanOpts = null;
+            if ($opts !== null) {
+                if (!is_array($opts) || count($opts) === 0 || count($opts) > 6) {
+                    json_error('選項唔啱', 400);
+                }
+                $cleanOpts = array();
+                $seenOpt = array();
+                foreach ($opts as $o) {
+                    if (!is_array($o) || !isset($o['label']) || !isset($o['price'])) {
+                        json_error('選項唔啱', 400);
+                    }
+                    $ol = trim((string) $o['label']);
+                    $op = $o['price'];
+                    if ($ol === '' || mb_strlen($ol, 'UTF-8') > 20 || isset($seenOpt[$ol])) {
+                        json_error('選項唔啱', 400);
+                    }
+                    $seenOpt[$ol] = true;
+                    if (!is_int($op) && !ctype_digit((string) $op)) {
+                        json_error('選項價錢唔啱', 400);
+                    }
+                    $op = (int) $op;
+                    if ($op < 0 || $op > 100000) {
+                        json_error('選項價錢唔啱', 400);
+                    }
+                    $cleanOpts[] = array('label' => $ol, 'price' => $op);
+                }
+            }
             $row = array(
                 'id'            => $id,
                 'name'          => $name,
@@ -545,6 +596,9 @@ switch ($action) {
             }
             if ($ing !== '') {
                 $row['ing'] = $ing;
+            }
+            if ($cleanOpts !== null) {
+                $row['opts'] = $cleanOpts;
             }
             $clean[] = $row;
         }

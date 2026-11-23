@@ -22,8 +22,11 @@
  * In demo mode:
  *   - get_menu reads data/menu.json (or an admin-edited copy in localStorage)
  *   - submit_order / get_orders / update_order use localStorage orders
+ *     (submit_order validates drink options the same way api.php does:
+ *     the chosen option sets the price and is stored on the order item)
  *   - login accepts the documented default PIN 1234 (see config.php)
- *   - admin_save_menu stores the edited menu in localStorage
+ *   - admin_save_menu stores the edited menu in localStorage (options
+ *     included, validated like api.php)
  *   - a banner says orders stay in this browser; a Reset button clears the
  *     demo data. Nothing is sent to any server.
  * ========================================================================== */
@@ -175,11 +178,29 @@
             if (m.price === null || m.price === undefined) {
               return errResp("呢款要問吧台，唔可以直接落單", 400);
             }
-            orderItems.push({
-              id: id, n: m.name, p: parseInt(m.price, 10), q: qty,
+            /* Drink options (cold/hot, 6/12-pack, 1L): the price follows
+               the chosen option. No option sent means the first one, so
+               older saved guest pages still order. Unknown label -> 400. */
+            var unitPrice = parseInt(m.price, 10);
+            var optLabel = "";
+            if (m.opts && Array.isArray(m.opts) && m.opts.length > 0) {
+              var opt = (typeof it.opt === "string") ? it.opt : "";
+              var found = null;
+              for (var oi = 0; oi < m.opts.length; oi++) {
+                if (m.opts[oi] && m.opts[oi].label === opt) { found = m.opts[oi]; break; }
+              }
+              if (found === null && opt === "") found = m.opts[0];
+              if (found === null) return errResp("選項唔啱", 400);
+              optLabel = found.label;
+              unitPrice = parseInt(found.price, 10);
+            }
+            var orderItem = {
+              id: id, n: m.name, p: unitPrice, q: qty,
               img: m.img || "", ing: m.ing || ""
-            });
-            total += parseInt(m.price, 10) * qty;
+            };
+            if (optLabel !== "") orderItem.o = optLabel;
+            orderItems.push(orderItem);
+            total += unitPrice * qty;
           }
           var orders = readOrders();
           var no = 1;
@@ -259,6 +280,23 @@
           var msub = typeof it2.sub === "string" ? it2.sub.replace(/^\s+|\s+$/g, "") : "";
           var ming = typeof it2.ing === "string" ? it2.ing.replace(/^\s+|\s+$/g, "") : "";
           var mimg = typeof it2.img === "string" ? it2.img.replace(/^\s+|\s+$/g, "") : "";
+          var mopts = ("opts" in it2) ? it2.opts : null;
+          var cleanOpts = null;
+          if (mopts !== null) {
+            if (!Array.isArray(mopts) || mopts.length === 0 || mopts.length > 6) return Promise.resolve(errResp("選項唔啱", 400));
+            cleanOpts = [];
+            var seenOpt = {};
+            for (var oi2 = 0; oi2 < mopts.length; oi2++) {
+              var oo = mopts[oi2];
+              if (!oo || typeof oo !== "object") return Promise.resolve(errResp("選項唔啱", 400));
+              var ol = (typeof oo.label === "string") ? oo.label.replace(/^\s+|\s+$/g, "") : "";
+              var op = parseInt(oo.price, 10);
+              if (ol === "" || ol.length > 20 || seenOpt[ol]) return Promise.resolve(errResp("選項唔啱", 400));
+              seenOpt[ol] = true;
+              if (isNaN(op) || op < 0 || op > 100000) return Promise.resolve(errResp("選項價錢唔啱", 400));
+              cleanOpts.push({ label: ol, price: op });
+            }
+          }
           if (!/^[a-z0-9][a-z0-9\-]*$/.test(mid)) return Promise.resolve(errResp("飲品編號唔啱", 400));
           if (seen[mid]) return Promise.resolve(errResp("飲品編號重複", 400));
           seen[mid] = true;
@@ -276,6 +314,7 @@
           var row = { id: mid, name: mname, price: mprice, category: mcat, category_name: CATEGORIES[mcat], img: mimg };
           if (msub !== "") row.sub = msub;
           if (ming !== "") row.ing = ming;
+          if (cleanOpts !== null) row.opts = cleanOpts;
           clean.push(row);
         }
         menuCache = clean;

@@ -115,6 +115,9 @@
       .stepper button{ width:38px; height:38px; min-height:38px; border-radius:50%; font-size:20px; color:var(--gold); display:flex; align-items:center; justify-content:center; }
       .stepper .q{ min-width:26px; text-align:center; font-weight:700; font-size:16px; }
       .asktag{ color:var(--faint); font-size:13px; border:1px dashed var(--line); border-radius:999px; padding:8px 12px; white-space:nowrap; }
+      .opts{ display:flex; flex-wrap:wrap; gap:6px; margin:7px 0 0; }
+      .opts button{ border:1px solid var(--line); background:transparent; color:var(--muted); border-radius:999px; padding:5px 11px; font-size:12.5px; font-weight:700; min-height:2rem; }
+      .opts button.on{ border-color:var(--gold); color:var(--gold); background:rgba(232,201,122,.08); }
 
       .foot-note{ color:var(--faint); font-size:12.5px; text-align:center; padding:26px 0 110px; margin:0; }
 
@@ -400,6 +403,7 @@
             <button type="button" class="btn-ghost" id="done-again">再叫多杯</button>
             <button type="button" class="btn-gold" id="done-tobar">去吧台畫面睇</button>
           </div>
+          <a class="btn-play" href="drinking-games/" target="_blank" rel="noopener">酒桌遊戲<small>大話骰 · 轉盤 · 猜酒 · 真心話 — 等酒嗰陣玩住先</small></a>
         </div>
       </div>
     </div>
@@ -474,7 +478,7 @@
         apiGet("get_menu").then(function(d){
           if (!d.ok || !d.menu) throw new Error("bad menu");
           MENU = d.menu.map(function(m, i){
-            return { id: i, slug: m.id, c: m.category, n: m.name, s: m.sub || "", ing: m.ing || "", p: m.price, img: m.img || "" };
+            return { id: i, slug: m.id, c: m.category, n: m.name, s: m.sub || "", ing: m.ing || "", p: m.price, img: m.img || "", o: (m.opts && m.opts.length ? m.opts : null), sel: 0 };
           });
           menuLoaded = true;
           renderCats(); renderMenu(); renderCartBar();
@@ -506,9 +510,12 @@
 
       function $(id){ return document.getElementById(id); }
       function money(v){ return "¥" + v; }
+      function cartKey(id, oi){ return id + ":" + oi; }
+      function cartParts(k){ var a = String(k).split(":"); return { id: +a[0], oi: +a[1] }; }
+      function optPrice(m, oi){ return (m.o && m.o[oi]) ? m.o[oi].price : m.p; }
       function cartCount(){ var n=0; for (var k in cart) n += cart[k]; return n; }
       function cartKinds(){ var n=0; for (var k in cart) if (cart[k]>0) n++; return n; }
-      function cartTotal(){ var t=0; for (var k in cart) t += MENU[k].p * cart[k]; return t; }
+      function cartTotal(){ var t=0; for (var k in cart){ var pp = cartParts(k); t += optPrice(MENU[pp.id], pp.oi) * cart[k]; } return t; }
 
       /* ===== 客人：分類 + 酒單 ===== */
       function renderCats(){
@@ -525,34 +532,45 @@
         var cat = CATS.filter(function(c){ return c.id === curCat; })[0];
         var html = '<div class="cat-title"><h2>' + cat.name + '</h2><span>' + cat.en + '</span></div><ul class="items">';
         MENU.filter(function(m){ return m.c === curCat; }).forEach(function(m){
-          var q = cart[m.id] || 0;
+          var key = cartKey(m.id, m.sel), q = cart[key] || 0, price = optPrice(m, m.sel);
+          var optsHtml = "";
+          if (m.o){
+            optsHtml = '<div class="opts" role="group" aria-label="選項">' + m.o.map(function(o, i){
+              return '<button type="button" class="' + (i === m.sel ? 'on' : '') + '" data-opt="' + m.id + ':' + i + '">' + o.label + ' ' + money(o.price) + '</button>';
+            }).join("") + '</div>';
+          }
           html += '<li class="item">' + thumbHtml(m.n, m.img, "thumb") + '<div><div class="nm">' + m.n + '</div>' +
             (m.ing ? '<div class="ing">' + m.ing + '</div>' : '') +
-            (m.s ? '<div class="sub">' + m.s + '</div>' : '') + '</div><div class="ctl">';
+            (m.s ? '<div class="sub">' + m.s + '</div>' : '') + optsHtml + '</div><div class="ctl">';
           if (m.p === null){
             html += '<span class="price">價錢面議</span><span class="asktag">請向吧台查詢</span>';
           } else {
-            html += '<span class="price">' + money(m.p) + '</span>' +
-              '<button type="button" class="addbtn' + (q>0 ? ' gone' : '') + '" data-add="' + m.id + '" aria-label="加一杯 ' + m.n + '">+</button>' +
-              '<span class="stepper' + (q>0 ? ' on' : '') + '" data-step="' + m.id + '">' +
-                '<button type="button" data-dec="' + m.id + '" aria-label="減少">−</button>' +
+            html += '<span class="price">' + money(price) + '</span>' +
+              '<button type="button" class="addbtn' + (q>0 ? ' gone' : '') + '" data-add="' + key + '" aria-label="加一杯 ' + m.n + '">+</button>' +
+              '<span class="stepper' + (q>0 ? ' on' : '') + '" data-step="' + key + '">' +
+                '<button type="button" data-dec="' + key + '" aria-label="減少">−</button>' +
                 '<span class="q">' + q + '</span>' +
-                '<button type="button" data-inc="' + m.id + '" aria-label="增加">+</button></span>';
+                '<button type="button" data-inc="' + key + '" aria-label="增加">+</button></span>';
           }
           html += '</div></li>';
         });
         html += '</ul>';
         $("menu-list").innerHTML = html;
       }
-      function setQty(id, q){
-        if (q <= 0) delete cart[id]; else cart[id] = Math.min(q, 20);
+      function setQty(key, q){
+        if (q <= 0) delete cart[key]; else cart[key] = Math.min(q, 20);
         renderMenu(); renderCartBar(); if ($("scrim").classList.contains("open")) renderCartLines();
       }
       $("menu-list").addEventListener("click", function(e){
         var t = e.target;
-        if (t.dataset.add !== undefined && t.dataset.add !== "") setQty(+t.dataset.add, (cart[t.dataset.add]||0) + 1);
-        else if (t.dataset.inc) setQty(+t.dataset.inc, (cart[t.dataset.inc]||0) + 1);
-        else if (t.dataset.dec) setQty(+t.dataset.dec, (cart[t.dataset.dec]||0) - 1);
+        if (t.dataset.opt){
+          var a = t.dataset.opt.split(":");
+          MENU[+a[0]].sel = +a[1];
+          renderMenu();
+        }
+        else if (t.dataset.add !== undefined && t.dataset.add !== "") setQty(t.dataset.add, (cart[t.dataset.add]||0) + 1);
+        else if (t.dataset.inc) setQty(t.dataset.inc, (cart[t.dataset.inc]||0) + 1);
+        else if (t.dataset.dec) setQty(t.dataset.dec, (cart[t.dataset.dec]||0) - 1);
       });
 
       /* ===== 購物車列 ===== */
@@ -590,11 +608,12 @@
       function renderCartLines(){
         var html = "";
         for (var k in cart){
-          var m = MENU[k], q = cart[k];
-          html += '<div class="cartline">' + thumbHtml(m.n, m.img, "cthumb") + '<div><div class="nm">' + m.n + '</div><div class="up">' + money(m.p) + ' / 杯</div></div>' +
+          var pp = cartParts(k), m = MENU[pp.id], q = cart[k], up = optPrice(m, pp.oi);
+          var olabel = m.o ? m.o[pp.oi].label : "";
+          html += '<div class="cartline">' + thumbHtml(m.n, m.img, "cthumb") + '<div><div class="nm">' + m.n + (olabel ? ' · ' + olabel : '') + '</div><div class="up">' + money(up) + ' / 杯</div></div>' +
             '<div style="display:flex;align-items:center;gap:12px;">' +
             '<span class="stepper"><button type="button" data-cdec="' + k + '" aria-label="減少">−</button><span class="q">' + q + '</span><button type="button" data-cinc="' + k + '" aria-label="增加">+</button></span>' +
-            '<span class="lt" style="min-width:52px;">' + money(m.p * q) + '</span></div></div>';
+            '<span class="lt" style="min-width:52px;">' + money(up * q) + '</span></div></div>';
         }
         $("cart-lines").innerHTML = html || '<p style="color:var(--muted)">未揀任何飲品。</p>';
         $("sheet-amt").textContent = money(cartTotal());
@@ -602,8 +621,8 @@
       }
       $("cart-lines").addEventListener("click", function(e){
         var t = e.target;
-        if (t.dataset.cinc) setQty(+t.dataset.cinc, (cart[t.dataset.cinc]||0) + 1);
-        else if (t.dataset.cdec) setQty(+t.dataset.cdec, (cart[t.dataset.cdec]||0) - 1);
+        if (t.dataset.cinc) setQty(t.dataset.cinc, (cart[t.dataset.cinc]||0) + 1);
+        else if (t.dataset.cdec) setQty(t.dataset.cdec, (cart[t.dataset.cdec]||0) - 1);
       });
       function openSheet(){
         $("sheet-cart").classList.remove("hidden");
@@ -627,7 +646,12 @@
         var btn = $("submit-order");
         btn.disabled = true;
         var items = [];
-        for (var k in cart) items.push({ id: MENU[k].slug, qty: cart[k] });
+        for (var k in cart){
+          var pp2 = cartParts(k), mm = MENU[pp2.id];
+          var it = { id: mm.slug, qty: cart[k] };
+          if (mm.o) it.opt = mm.o[pp2.oi].label;
+          items.push(it);
+        }
         apiPost("submit_order", { items: items, spot: curSpot, note: $("order-note").value.trim() }).then(function(d){
           btn.disabled = false;
           if (!d.ok || !d.order) throw new Error("submit failed");
@@ -640,7 +664,7 @@
           $("done-no").textContent = "#" + pad3(order.no);
           $("done-seat").textContent = order.seat + " · " + order.time;
           var r = "";
-          order.items.forEach(function(it){ r += '<div class="rl">' + thumbHtml(it.n, it.img, "rthumb") + '<span>' + it.n + " × " + it.q + "</span><span>" + money(it.p * it.q) + "</span></div>"; });
+          order.items.forEach(function(it){ r += '<div class="rl">' + thumbHtml(it.n, it.img, "rthumb") + '<span>' + it.n + (it.o ? ' · ' + it.o : '') + " × " + it.q + "</span><span>" + money(it.p * it.q) + "</span></div>"; });
           r += '<div class="tot"><span>合共（吧枱付款）</span><span>' + money(order.total) + "</span></div>";
           $("done-receipt").innerHTML = r;
         }).catch(function(){
@@ -665,7 +689,7 @@
           '<div><div class="ono2">訂單 #' + pad3(o.no) + '</div><div class="otime">' + o.time + ' 落單</div></div>' +
           statusTag(o.status) + '</div><ul>';
         o.items.forEach(function(it){
-          html += '<li><span class="lft">' + thumbHtml(it.n, it.img, "othumb") + '<span>' + it.n + (it.ing ? '<div class="oing">' + it.ing + '</div>' : '') + '</span></span><span class="q">× ' + it.q + '</span></li>';
+          html += '<li><span class="lft">' + thumbHtml(it.n, it.img, "othumb") + '<span>' + it.n + (it.o ? ' · ' + it.o : '') + (it.ing ? '<div class="oing">' + it.ing + '</div>' : '') + '</span></span><span class="q">× ' + it.q + '</span></li>';
         });
         html += '</ul>';
         if (o.note) html += '<div class="onote"><span>備註</span>' + o.note.replace(/</g, "&lt;") + '</div>';
