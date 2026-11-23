@@ -4,8 +4,8 @@ A mobile-first photo menu for a small bar, restaurant or café: a sticky
 category tab bar on top, one full-screen menu page per swipe, black and
 champagne-gold styling. Guests tap a category and scroll the pages.
 
-> This is a **sample template** with placeholder pages. Replace the page
-> images with photos of your own drinks before using it for real customers.
+> This is a **sample template**. The page images come from a real bar menu —
+> replace them with pages of your own drinks before using it for real customers.
 >
 > **Live demo:** https://leoleong2303.github.io/bar-website-templates/bar-photo-menu/
 
@@ -14,12 +14,12 @@ champagne-gold styling. Guests tap a category and scroll the pages.
 | File | What it is |
 | --- | --- |
 | `index.html` | Tab bar + menu pages (all styling and logic inline) |
-| `assets/page-01.jpg` … `page-25.jpg` | The menu pages, 1080×1920 (9:16), 2×2 grid |
-| `single-file.html` | Same menu as one self-contained file (pages embedded) |
+| `assets/page-01.jpg` … `page-24.jpg` | The menu pages, 1080×1920 (9:16), 2×2 grid |
+| `single-file.html` | Same menu as one self-contained file (pages embedded) — currently still the previous 25-page set; regenerate it from the new pages before deploying it |
 | `assets/` | Only the page images — no other dependencies |
 
-The 25 sample pages mirror a typical bar menu: cover, cocktails (7 pages),
-house-mix specials (2), zero-proof (4), sparkling specials (2), beers (2),
+The 24 sample pages mirror a typical bar menu: cover, cocktails (7 pages),
+house-mix specials (2), zero-proof (4), sparkling specials (1), beers (2),
 draught (2), whisky (3), wine (1), shisha (1). Categories never mix on a
 page, so some pages have empty cells — that is intentional.
 
@@ -42,15 +42,15 @@ want one file to deploy).
 - **Colours:** the palette is in the CSS `:root` block (`--gold`, `--bg`, …).
 - **Currency:** prices are baked into the sample page images; your own pages
   carry whatever currency you use.
-- **Single-file version:** `single-file.html` embeds the same 25 pages as
+- **Single-file version:** `single-file.html` embeds the same 24 pages as
   base64, so it works from a single file with no `assets/` folder. Regenerate
   it by replacing the embedded images, or just deploy the folder version.
+  (It still embeds the previous 25-page set until regenerated.)
 
 ## Notes
 
-- The sample pages use placeholder art (a line-art glass + “SAMPLE PHOTO”)
-  instead of real drink photos. Photograph your own drinks — or generate
-  images — and swap them in.
+- The sample pages are a real bar menu (drink names and prices baked into
+  the images). Replace them with pages of your own drinks.
 - Photos load lazily except the cover, so the first paint stays fast.
 
 ## License
@@ -63,18 +63,18 @@ MIT — see `LICENSE`.
 
 一間細酒吧、餐廳或者 café 用嘅手機相片餐牌：頂部係固定分類 tab 欄，每頁一個全屏餐牌頁，黑底香檳金配色。客人撳分類，碌去睇。
 
-> 呢個係**範例模板**，入面全部係佔位頁面。正式用之前，請換返自己飲品嘅相。
+> 呢個係**範例模板**，入面嘅頁面嚟自一份真實酒吧餐牌。正式用之前，請換返自己飲品嘅相。
 
 ## 檔案
 
 | 檔案 | 用途 |
 | --- | --- |
 | `index.html` | Tab 欄 + 餐牌頁（樣式同邏輯全部 inline） |
-| `assets/page-01.jpg` … `page-25.jpg` | 餐牌頁，1080×1920（9:16），2×2 排版 |
-| `single-file.html` | 同一個餐牌嘅單一檔案版（頁面全部包埋入面） |
+| `assets/page-01.jpg` … `page-24.jpg` | 餐牌頁，1080×1920（9:16），2×2 排版 |
+| `single-file.html` | 同一個餐牌嘅單一檔案版（頁面全部包埋入面）——而家仲係舊嘅 25 頁版，部署之前要先用新頁重新包埋佢 |
 | `assets/` | 只係餐牌頁圖片，冇其他依賴 |
 
-25 頁範例跟一間典型酒吧餐牌：封面、雞尾酒（7 頁）、基酒特調（2 頁）、無酒精特飲（4 頁）、氣泡特飲（2 頁）、啤酒（2 頁）、生啤（2 頁）、威士忌（3 頁）、紅酒（1 頁）、水煙（1 頁）。分類唔會喺同一頁混合，所以有啲頁面會有空格——係刻意嘅。
+24 頁範例跟一間典型酒吧餐牌：封面、雞尾酒（7 頁）、基酒特調（2 頁）、無酒精特飲（4 頁）、氣泡特飲（1 頁）、啤酒（2 頁）、生啤（2 頁）、威士忌（3 頁）、紅酒（1 頁）、水煙（1 頁）。分類唔會喺同一頁混合，所以有啲頁面會有空格——係刻意嘅。
 
 ## 部署
 
@@ -87,9 +87,9 @@ MIT — see `LICENSE`.
 - **鋪頭名 / 地址：**喺 `index.html` 搵 `SAMPLE BAR` 同範例地址——標題、meta 描述、封面 alt 文字同頁尾。
 - **顏色：**CSS `:root` 入面（`--gold`、`--bg`……）。
 - **貨幣：**價錢已經燒入範例頁面圖片；你自己嘅頁面用返你嘅貨幣。
-- **單一檔案版：**`single-file.html` 將 25 頁以 base64 包埋入面，得一個檔案就跑到，唔需要 `assets/` 資料夾。換相之後重新包埋佢，或者直接用資料夾版。
+- **單一檔案版：**`single-file.html` 將 24 頁以 base64 包埋入面，得一個檔案就跑到，唔需要 `assets/` 資料夾。換相之後重新包埋佢，或者直接用資料夾版。（佢而家仲係舊嘅 25 頁版，未重新包過。）
 
 ## 注意事項
 
-- 範例頁面用佔位圖（線條酒杯 + “SAMPLE PHOTO”），唔係真實飲品相。請影返自己嘅飲品——或者生成圖片——再換入去。
+- 範例頁面係一份真實酒吧餐牌（飲品名同價錢已經燒入圖片）。請換返自己餐牌嘅頁面。
 - 除封面之外，相片全部 lazy load，所以首次顯示夠快。
