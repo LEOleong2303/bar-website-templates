@@ -95,6 +95,22 @@ or a glass / 1-litre pour. Each option is a label plus a price:
   two house lagers (no discount), 5% off the volume-proportional price for
   the rest. All prices are whole numbers.
 
+## My orders （我嘅訂單）
+
+- After ordering, the guest's order is saved in their own phone's browser
+  (localStorage — no login). A "My orders" button at the top, and one on the
+  order-success screen, shows order number, time, seat, items (with the
+  chosen option), total, and live status (Pending / Making / Done).
+- Status is looked up by order number (`api.php?action=get_order&no=NUMBER`,
+  public, no PIN). Order numbers are sequential — anyone who guesses a number
+  can see that order's items — but orders contain no names, phone numbers or
+  payment data.
+- Each order has an "Order again" button that re-adds the same items to the
+  cart at current prices and options; items no longer on the menu are skipped
+  automatically. Up to 20 orders are kept; the guest can clear them from
+  "My orders".
+- Switching phones or clearing browser data loses the history.
+
 ## Notes & limits
 
 - Orders are stored as a JSON file with a file lock — fine for one small
@@ -174,6 +190,13 @@ MIT — see `LICENSE`.
 - 呢個模板嘅示例價錢：罐裝半打 = 單價 ×6 再 95折，一打 = 單價 ×12
   再 9折；精釀 1 升：兩款拉格生啤兩杯價唔打折，其他按容量比例再 95折。
   全部價錢都係整數。
+
+## 我嘅訂單
+
+- 客人落單之後，嗰張單會記喺佢自己部手機度（localStorage，唔使登入）。頂部「我嘅訂單」掣或者落單成功畫面嘅「睇返我嘅訂單」可以睇返：單號、時間、吧位、內容（連埋選項）、總數，同即時狀態（待製作 / 製作中 / 完成）。
+- 狀態係用單號向伺服器查（`api.php?action=get_order&no=單號`，公開，唔使 PIN）。單號係順序嘅，任何人估到單號都睇到嗰張單叫咗乜；訂單入面冇人名、電話、付款資料。
+- 每張單有「再叫一次」掣，一撳就將同一啲嘢（跟返而家嘅價錢同選項）加返入購物車；如果有飲品已經落咗架，會自動跳過。記錄最多留 20 張，客人可以喺「我嘅訂單」入面清除。
+- 轉機或者清咗瀏覽資料，記錄就睇唔返。
 
 ## 注意事項
 

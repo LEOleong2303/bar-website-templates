@@ -48,7 +48,7 @@
         backdrop-filter:blur(8px);
         border-bottom:1px solid var(--line-soft);
       }
-      .viewbar-inner{ display:flex; align-items:center; gap:12px; padding-top:10px; padding-bottom:10px; }
+      .viewbar-inner{ display:flex; align-items:center; gap:12px; padding-top:10px; padding-bottom:10px; flex-wrap:wrap; }
       .brand{ font-family:"Noto Serif TC", serif; font-weight:900; letter-spacing:.14em; font-size:15px; white-space:nowrap; }
       .brand small{ display:block; font-family:"Noto Sans TC",sans-serif; font-weight:500; letter-spacing:.32em; font-size:9px; color:var(--gold); }
       .seg{ margin-left:auto; display:flex; background:var(--panel); border:1px solid var(--line); border-radius:999px; padding:3px; }
@@ -318,12 +318,20 @@
       .menu-error{ color:#e08a7a; text-align:center; padding:40px 16px; border:1px dashed var(--line); border-radius:var(--radius); margin-top:16px; }
       .thumb-ph{ display:inline-flex; align-items:center; justify-content:center; font-family:"Noto Serif TC",serif; font-size:26px; font-weight:700; color:var(--gold); background:var(--panel-2); }
       .hidden{ display:none !important; }
+      /* ---------- 我嘅訂單 ---------- */
+      .myorders-btn{
+        border:1px solid var(--line); border-radius:999px; padding:0 14px; min-height:2.5rem;
+        color:var(--muted); font-size:13.5px; display:inline-flex; align-items:center; gap:7px; white-space:nowrap;
+      }
+      .myorders-btn:active{ border-color:var(--gold); color:var(--gold); }
+      #hist-list .order{ margin-top:12px; }
     </style>
   </head>
   <body>
     <div class="viewbar">
       <div class="wrap viewbar-inner">
         <div class="brand">範例酒吧<small>SAMPLE BAR</small></div>
+        <button type="button" class="myorders-btn" id="btn-myorders">我嘅訂單</button>
         <div class="seg" role="group" aria-label="切換畫面">
           <button type="button" id="btn-guest" aria-pressed="true">客人點餐</button>
           <button type="button" id="btn-bar" aria-pressed="false">吧台訂單 <span class="dot" id="bar-dot">0</span></button>
@@ -403,6 +411,7 @@
             <button type="button" class="btn-ghost" id="done-again">再叫多杯</button>
             <button type="button" class="btn-gold" id="done-tobar">去吧台畫面睇</button>
           </div>
+          <button type="button" class="btn-ghost" id="done-myorders" style="width:100%; margin-top:10px;">睇返我嘅訂單</button>
           <a class="btn-play" href="drinking-games/" target="_blank" rel="noopener">酒桌遊戲<small>大話骰 · 轉盤 · 猜酒 · 真心話 — 等酒嗰陣玩住先</small></a>
         </div>
       </div>
@@ -435,8 +444,24 @@
       </div>
     </div>
 
+    <!-- 我嘅訂單 -->
+    <div class="scrim" id="hist-scrim">
+      <div class="sheet" role="dialog" aria-modal="true" aria-labelledby="hist-title">
+        <button type="button" class="x" id="hist-close" aria-label="關閉">✕</button>
+        <h2 id="hist-title">我嘅訂單</h2>
+        <p class="sub2">只會喺呢部手機度記住，轉機或者清咗瀏覽資料就睇唔返。</p>
+        <div id="hist-list"></div>
+        <p class="err" id="hist-err"></p>
+        <div class="actions">
+          <button type="button" class="btn-ghost" id="hist-clear" style="flex:1;">清除記錄</button>
+          <button type="button" class="btn-gold" id="hist-refresh" style="flex:1;">更新狀態</button>
+        </div>
+      </div>
+    </div>
+
     <!-- demo-mode.js：喺 GitHub Pages 等靜態空間，api.php 跑唔到 PHP 時自動用瀏覽器本地模擬代替；有真 PHP 後端時完全唔會介入。 -->
     <script src="demo-mode.js"></script>
+
     <script>
       "use strict";
       /* ===== 酒單（同現行酒單相同） ===== */
@@ -656,6 +681,7 @@
           btn.disabled = false;
           if (!d.ok || !d.order) throw new Error("submit failed");
           var order = d.order;
+          saveOrderToHist(order);
           cart = {}; $("order-note").value = ""; curSpot = "";
           renderMenu(); renderCartBar();
           /* 確認畫面 */
@@ -676,6 +702,114 @@
       function pad3(n){ return ("00" + n).slice(-3); }
       $("done-again").addEventListener("click", closeSheet);
       $("done-tobar").addEventListener("click", function(){ closeSheet(); requestBar(); });
+
+      /* ===== 我嘅訂單：存喺呢部手機（localStorage），唔使登入 ===== */
+      var HIST_KEY = "memory_my_orders";
+      var HIST_MAX = 20;
+      var histTimer = null;
+      function loadHist(){
+        try {
+          var a = JSON.parse(localStorage.getItem(HIST_KEY) || "[]");
+          return Array.isArray(a) ? a : [];
+        } catch (e) { return []; }
+      }
+      function saveHist(list){
+        try { localStorage.setItem(HIST_KEY, JSON.stringify(list.slice(0, HIST_MAX))); } catch (e) { /* 記唔到都唔影響落單 */ }
+      }
+      function saveOrderToHist(order){
+        var list = loadHist();
+        list = list.filter(function(o){ return o.no !== order.no; });
+        list.unshift({
+          no: order.no, date: order.date, time: order.time,
+          seat: order.seat, seatEn: order.seatEn || "",
+          items: order.items, total: order.total, note: order.note || "",
+          status: order.status || "待製作"
+        });
+        saveHist(list);
+      }
+      function histStatusLocal(s){
+        return s === "製作中" ? "making" : (s === "完成" ? "done" : "new");
+      }
+      function histCard(o){
+        var items = "";
+        (o.items || []).forEach(function(it){
+          items += '<li><span class="lft">' + thumbHtml(it.n, it.img, "othumb") + '<span>' + it.n + (it.o ? ' · ' + it.o : '') + '</span></span><span class="q">× ' + it.q + '</span></li>';
+        });
+        return '<article class="order">' +
+          '<div class="ohead"><div class="seat-badge">' + o.seat + '<small>' + (o.seatEn || "BAR SEAT") + '</small></div>' +
+          '<div><div class="ono2">訂單 #' + pad3(o.no) + '</div><div class="otime">' + (o.date || "") + " " + o.time + '</div></div>' +
+          statusTag(histStatusLocal(o.status)) + '</div><ul>' + items + '</ul>' +
+          (o.note ? '<div class="onote"><span>備註</span>' + String(o.note).replace(/</g, "&lt;") + '</div>' : '') +
+          '<div class="ofoot"><span class="ototal">合共 <b>' + money(o.total) + '</b></span><span class="spacer"></span>' +
+          '<button type="button" class="btn-gold" data-reorder="' + o.no + '">再叫一次</button></div></article>';
+      }
+      function renderHist(){
+        var list = loadHist();
+        $("hist-list").innerHTML = list.length
+          ? list.map(histCard).join("")
+          : '<div class="empty"><b>你未落過單</b>落單之後，呢度會記住你叫過啲咩。</div>';
+        $("hist-clear").style.display = list.length ? "" : "none";
+        $("hist-err").classList.remove("show");
+      }
+      function refreshHistStatus(){
+        var list = loadHist();
+        if (!list.length) return;
+        var pending = list.length, changed = false;
+        list.forEach(function(o){
+          apiGet("get_order&no=" + o.no).then(function(d){
+            if (d.ok && d.order && d.order.status && d.order.status !== o.status){ o.status = d.order.status; changed = true; }
+          }).catch(function(){ /* 查唔到就留返舊狀態 */ }).then(function(){
+            if (--pending === 0 && changed){ saveHist(list); renderHist(); }
+          });
+        });
+      }
+      function reorder(no){
+        var saved = null;
+        loadHist().forEach(function(o){ if (o.no === no) saved = o; });
+        if (!saved || !saved.items) return;
+        var added = 0, skipped = 0;
+        saved.items.forEach(function(it){
+          var m = null;
+          MENU.forEach(function(mm){ if (mm.slug === it.id) m = mm; });
+          if (!m || m.p === null){ skipped++; return; }
+          var oi = 0;
+          if (m.o && it.o){
+            for (var i = 0; i < m.o.length; i++) if (m.o[i].label === it.o){ oi = i; break; }
+          }
+          m.sel = oi;
+          var key = cartKey(m.id, oi);
+          setQty(key, (cart[key] || 0) + it.q);
+          added++;
+        });
+        if (added === 0){
+          $("hist-err").textContent = "呢張單啲飲品而家冇晒，叫唔返。";
+          $("hist-err").classList.add("show");
+          return;
+        }
+        closeHist();
+        openSheet();
+      }
+      function openHist(){
+        renderHist(); refreshHistStatus();
+        $("hist-scrim").classList.add("open");
+        stopHistTimer();
+        histTimer = setInterval(refreshHistStatus, 10000);
+      }
+      function stopHistTimer(){ if (histTimer){ clearInterval(histTimer); histTimer = null; } }
+      function closeHist(){ $("hist-scrim").classList.remove("open"); stopHistTimer(); }
+      $("btn-myorders").addEventListener("click", openHist);
+      $("done-myorders").addEventListener("click", function(){ closeSheet(); openHist(); });
+      $("hist-close").addEventListener("click", closeHist);
+      $("hist-scrim").addEventListener("click", function(e){ if (e.target === $("hist-scrim")) closeHist(); });
+      $("hist-refresh").addEventListener("click", function(){ refreshHistStatus(); });
+      $("hist-clear").addEventListener("click", function(){
+        if (!confirm("清除晒呢部手機上面嘅訂單記錄？")) return;
+        saveHist([]); renderHist();
+      });
+      $("hist-list").addEventListener("click", function(e){
+        var t = e.target;
+        if (t.dataset && t.dataset.reorder) reorder(+t.dataset.reorder);
+      });
 
       /* ===== 吧台畫面 ===== */
       function statusTag(s){

@@ -22,6 +22,7 @@
  * In demo mode:
  *   - get_menu reads data/menu.json (or an admin-edited copy in localStorage)
  *   - submit_order / get_orders / update_order use localStorage orders
+ *   - get_order looks up one order by number (public, no login)
  *     (submit_order validates drink options the same way api.php does:
  *     the chosen option sets the price and is stored on the order item)
  *   - login accepts the documented default PIN 1234 (see config.php)
@@ -148,6 +149,26 @@
         }).catch(function () {
           return errResp("酒單讀唔到", 500);
         });
+
+      case "get_order": {
+        if (method !== "GET") return Promise.resolve(errResp("方法唔啱", 405));
+        var noMatch = /[?&]no=([^&#]*)/.exec(url);
+        var no = noMatch ? parseInt(decodeURIComponent(noMatch[1]), 10) : 0;
+        if (isNaN(no) || no < 1) return Promise.resolve(errResp("單號唔啱", 400));
+        var orders3 = readOrders();
+        for (var j2 = 0; j2 < orders3.length; j2++) {
+          if (orders3[j2].no === no) {
+            var found3 = orders3[j2];
+            return Promise.resolve(okResp({ ok: true, order: {
+              no: found3.no, date: found3.date || "", time: found3.time || "",
+              seat: found3.seat || "", seatEn: found3.seatEn || "",
+              items: found3.items || [], total: found3.total || 0,
+              note: found3.note || "", status: found3.status || "待製作"
+            } }));
+          }
+        }
+        return Promise.resolve(errResp("搵唔到呢張單", 404));
+      }
 
       case "submit_order": {
         if (method !== "POST") return Promise.resolve(errResp("方法唔啱", 405));

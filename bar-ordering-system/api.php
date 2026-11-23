@@ -4,6 +4,7 @@
  *
  * 用法：api.php?action=<動作>
  *   get_menu        GET   公開：攞酒單
+ *   get_order       GET   公開：用單號查一張單嘅狀態（客人睇返自己嘅單）
  *   submit_order    POST  公開：客人落單（JSON：items、spot、note）
  *   login           POST  公開：吧台 / 管理頁登入（JSON：pin）
  *   logout          POST  已登入：登出
@@ -306,6 +307,36 @@ switch ($action) {
             json_error('方法唔啱', 405);
         }
         json_out(array('ok' => true, 'menu' => read_menu()));
+        break;
+
+    // ----- 公開：用單號查一張單（客人睇返自己叫過乜 + 即時狀態） -----
+    // 單號係順序嘅，估到單號就睇到嗰張單嘅內容；
+    // 訂單入面冇人名、電話、付款資料，得飲品、吧位、總數、狀態。
+    case 'get_order':
+        if ($method !== 'GET') {
+            json_error('方法唔啱', 405);
+        }
+        $no = isset($_GET['no']) ? (int) $_GET['no'] : 0;
+        if ($no < 1) {
+            json_error('單號唔啱', 400);
+        }
+        $orders = read_orders();
+        foreach ($orders as $o) {
+            if (($o['no'] ?? 0) === $no) {
+                json_out(array('ok' => true, 'order' => array(
+                    'no'     => $o['no'],
+                    'date'   => $o['date'] ?? '',
+                    'time'   => $o['time'] ?? '',
+                    'seat'   => $o['seat'] ?? '',
+                    'seatEn' => $o['seatEn'] ?? '',
+                    'items'  => $o['items'] ?? array(),
+                    'total'  => $o['total'] ?? 0,
+                    'note'   => $o['note'] ?? '',
+                    'status' => $o['status'] ?? '待製作',
+                )));
+            }
+        }
+        json_error('搵唔到呢張單', 404);
         break;
 
     // ----- 公開：客人落單 -----
