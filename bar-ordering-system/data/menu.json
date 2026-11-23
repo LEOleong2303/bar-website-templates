@@ -117,6 +117,35 @@
     "ing": "Tequila · Rum · Pineapple"
   },
   {
+    "id": "watercress-honey",
+    "name": "西洋菜蜜特調",
+    "price": 42,
+    "category": "cocktail",
+    "category_name": "雞尾酒",
+    "img": "assets/img/baimayong-caimi.jpg",
+    "ing": "Vodka · Lemon · Cucumber · Watercress Honey"
+  },
+  {
+    "id": "irish-cocoa",
+    "name": "愛爾蘭唂咕",
+    "price": 45,
+    "category": "cocktail",
+    "category_name": "雞尾酒",
+    "img": "assets/img/irish-cocoa.jpg",
+    "sub": "冰 / 熱",
+    "ing": "Whisky · Cocoa",
+    "opts": [
+      {
+        "label": "冰",
+        "price": 45
+      },
+      {
+        "label": "熱",
+        "price": 45
+      }
+    ]
+  },
+  {
     "id": "tequila-sunrise",
     "name": "龍舌蘭日出",
     "price": 48,
@@ -232,7 +261,17 @@
     "category": "draft",
     "category_name": "精釀啤酒",
     "img": "assets/img/draft-lager-classic.jpg",
-    "sub": "500ML"
+    "sub": "500ML · ABV 5%",
+    "opts": [
+      {
+        "label": "500ML",
+        "price": 19
+      },
+      {
+        "label": "1升",
+        "price": 38
+      }
+    ]
   },
   {
     "id": "draft-lager-pale",
@@ -241,7 +280,17 @@
     "category": "draft",
     "category_name": "精釀啤酒",
     "img": "assets/img/draft-lager-pale.jpg",
-    "sub": "500ML"
+    "sub": "500ML · ABV 5%",
+    "opts": [
+      {
+        "label": "500ML",
+        "price": 22
+      },
+      {
+        "label": "1升",
+        "price": 44
+      }
+    ]
   },
   {
     "id": "draft-matcha",
@@ -250,7 +299,7 @@
     "category": "draft",
     "category_name": "精釀啤酒",
     "img": "assets/img/draft-matcha.jpg",
-    "sub": "500ML"
+    "sub": "430ML · ABV 5%"
   },
   {
     "id": "draft-mango-sour",
@@ -259,7 +308,17 @@
     "category": "draft",
     "category_name": "精釀啤酒",
     "img": "assets/img/draft-mango-sour.jpg",
-    "sub": "芒果木姜子混合啤酒 · 450ML"
+    "sub": "芒果木姜子混合啤酒 · 430ML · ABV 3.5%",
+    "opts": [
+      {
+        "label": "430ML",
+        "price": 39
+      },
+      {
+        "label": "1升",
+        "price": 86
+      }
+    ]
   },
   {
     "id": "draft-peach-sour",
@@ -268,7 +327,17 @@
     "category": "draft",
     "category_name": "精釀啤酒",
     "img": "assets/img/draft-peach-sour.jpg",
-    "sub": "蜜桃番石榴柏林酸小麥 · 450ML"
+    "sub": "蜜桃番石榴柏林酸小麥 · 430ML · ABV 3.5%",
+    "opts": [
+      {
+        "label": "430ML",
+        "price": 39
+      },
+      {
+        "label": "1升",
+        "price": 86
+      }
+    ]
   },
   {
     "id": "draft-double-ipa",
@@ -277,7 +346,17 @@
     "category": "draft",
     "category_name": "精釀啤酒",
     "img": "assets/img/draft-double-ipa.jpg",
-    "sub": "450ML"
+    "sub": "430ML · ABV 8%",
+    "opts": [
+      {
+        "label": "430ML",
+        "price": 45
+      },
+      {
+        "label": "1升",
+        "price": 99
+      }
+    ]
   },
   {
     "id": "draft-fruit-sour",
@@ -286,7 +365,17 @@
     "category": "draft",
     "category_name": "精釀啤酒",
     "img": "assets/img/draft-fruit-sour.jpg",
-    "sub": "450ML"
+    "sub": "430ML · ABV 3%",
+    "opts": [
+      {
+        "label": "430ML",
+        "price": 45
+      },
+      {
+        "label": "1升",
+        "price": 99
+      }
+    ]
   },
   {
     "id": "herbal-liqueur",
@@ -295,7 +384,7 @@
     "category": "whisky",
     "category_name": "威士忌",
     "img": "assets/img/herbal-liqueur.jpg",
-    "sub": "杯售"
+    "sub": "杯售 · ABV 35%"
   },
   {
     "id": "single-malt-12",
@@ -304,7 +393,7 @@
     "category": "whisky",
     "category_name": "威士忌",
     "img": "assets/img/single-malt-12.jpg",
-    "sub": "杯售"
+    "sub": "杯售 · ABV 40%"
   },
   {
     "id": "single-malt-15",
@@ -313,7 +402,7 @@
     "category": "whisky",
     "category_name": "威士忌",
     "img": "assets/img/single-malt-15.jpg",
-    "sub": "杯售"
+    "sub": "杯售 · ABV 40%"
   },
   {
     "id": "single-malt-15-sherry",
@@ -322,7 +411,7 @@
     "category": "whisky",
     "category_name": "威士忌",
     "img": "assets/img/single-malt-15-sherry.jpg",
-    "sub": "單一麥芽 · 杯售"
+    "sub": "單一麥芽 · 杯售 · ABV 40%"
   },
   {
     "id": "single-malt-taiwan",
@@ -331,7 +420,7 @@
     "category": "whisky",
     "category_name": "威士忌",
     "img": "assets/img/single-malt-taiwan.jpg",
-    "sub": "杯售"
+    "sub": "杯售 · ABV 40%"
   },
   {
     "id": "single-malt-18",
@@ -340,7 +429,7 @@
     "category": "whisky",
     "category_name": "威士忌",
     "img": "assets/img/single-malt-18.jpg",
-    "sub": "杯售"
+    "sub": "杯售 · ABV 40%"
   },
   {
     "id": "cognac-vsop",
@@ -349,7 +438,7 @@
     "category": "whisky",
     "category_name": "威士忌",
     "img": "assets/img/cognac-vsop.jpg",
-    "sub": "瓶售"
+    "sub": "瓶售 · ABV 40%"
   },
   {
     "id": "cognac-vsop-bottle",
@@ -358,7 +447,7 @@
     "category": "whisky",
     "category_name": "威士忌",
     "img": "assets/img/cognac-vsop-bottle.jpg",
-    "sub": "瓶售"
+    "sub": "瓶售 · ABV 40%"
   },
   {
     "id": "single-malt-12-sherry",
@@ -367,7 +456,7 @@
     "category": "whisky",
     "category_name": "威士忌",
     "img": "assets/img/single-malt-12-sherry.jpg",
-    "sub": "瓶售"
+    "sub": "瓶售 · ABV 40%"
   },
   {
     "id": "blackcurrant-special",
@@ -413,6 +502,15 @@
     "category_name": "基酒特調",
     "img": "assets/img/orange-special.jpg",
     "ing": "House Spirit · Orange"
+  },
+  {
+    "id": "watercress-honey-zero",
+    "name": "西洋菜蜜特調（無酒精）",
+    "price": 28,
+    "category": "special",
+    "category_name": "基酒特調",
+    "img": "assets/img/baimayong-caimi.jpg",
+    "ing": "Watercress Honey · Lemon · Cucumber · Soda"
   },
   {
     "id": "da-ning-le",
@@ -497,15 +595,6 @@
     "ing": "Fresh Lemon Juice"
   },
   {
-    "id": "mangosteen-juice",
-    "name": "NFC 冰鮮山竹汁",
-    "price": 28,
-    "category": "zero",
-    "category_name": "無酒精特飲",
-    "img": "assets/img/mangosteen-juice.jpg",
-    "ing": "Mangosteen Juice"
-  },
-  {
     "id": "sparkling-lemon",
     "name": "有氣檸賓",
     "price": 28,
@@ -513,6 +602,26 @@
     "category_name": "無酒精特飲",
     "img": "assets/img/sparkling-lemon.jpg",
     "ing": "Lemon · Soda"
+  },
+  {
+    "id": "cocoa-300",
+    "name": "300%勁唂咕",
+    "price": 28,
+    "category": "zero",
+    "category_name": "無酒精特飲",
+    "img": "assets/img/cocoa-300.jpg",
+    "sub": "冰 / 熱",
+    "ing": "Cocoa",
+    "opts": [
+      {
+        "label": "冰",
+        "price": 28
+      },
+      {
+        "label": "熱",
+        "price": 28
+      }
+    ]
   },
   {
     "id": "hot-lemon-tea",
@@ -534,31 +643,13 @@
     "ing": "Orange"
   },
   {
-    "id": "honey-orchid",
-    "name": "蜂蜜蘭香特飲",
-    "price": 68,
-    "category": "zero",
-    "category_name": "無酒精特飲",
-    "img": "assets/img/honey-orchid.jpg",
-    "ing": "Honey · Oolong Tea"
-  },
-  {
     "id": "grapefruit-coriander",
     "name": "葡萄柚芫荽特飲",
     "price": 19,
     "category": "sparkling",
     "category_name": "氣泡特飲",
     "img": "assets/img/grapefruit-coriander.jpg",
-    "ing": "Grapefruit · Coriander · Soda Water"
-  },
-  {
-    "id": "lemongrass-vinegar",
-    "name": "香茅果醋",
-    "price": 19,
-    "category": "sparkling",
-    "category_name": "氣泡特飲",
-    "img": "assets/img/lemongrass-vinegar.jpg",
-    "ing": "Lemongrass · Vinegar · Soda Water"
+    "ing": "Grapefruit · Coriander · Chang Soda"
   },
   {
     "id": "thai-mojito",
@@ -567,16 +658,7 @@
     "category": "sparkling",
     "category_name": "氣泡特飲",
     "img": "assets/img/thai-mojito.jpg",
-    "ing": "Mint · Lime · Soda Water"
-  },
-  {
-    "id": "soda-mojito",
-    "name": "蘇打莫吉托",
-    "price": 25,
-    "category": "sparkling",
-    "category_name": "氣泡特飲",
-    "img": "assets/img/soda-mojito.jpg",
-    "ing": "Mint · Lime · Soda Water"
+    "ing": "Mint · Lime · Chang Soda"
   },
   {
     "id": "orange-burst",
@@ -585,25 +667,7 @@
     "category": "sparkling",
     "category_name": "氣泡特飲",
     "img": "assets/img/orange-burst.jpg",
-    "ing": "Orange · Soda Water"
-  },
-  {
-    "id": "jackfruit-salt",
-    "name": "海鹽菠蘿蜜",
-    "price": 25,
-    "category": "sparkling",
-    "category_name": "氣泡特飲",
-    "img": "assets/img/jackfruit-salt.jpg",
-    "ing": "Jackfruit · Sea Salt · Soda Water"
-  },
-  {
-    "id": "longan-coconut",
-    "name": "龍眼青椰",
-    "price": 25,
-    "category": "sparkling",
-    "category_name": "氣泡特飲",
-    "img": "assets/img/longan-coconut.jpg",
-    "ing": "Longan · Young Coconut · Soda Water"
+    "ing": "Orange · Chang Soda"
   },
   {
     "id": "nanyang-pineapple",
@@ -612,7 +676,7 @@
     "category": "sparkling",
     "category_name": "氣泡特飲",
     "img": "assets/img/nanyang-pineapple.jpg",
-    "ing": "Pineapple · Soda Water"
+    "ing": "Pineapple · Chang Soda"
   },
   {
     "id": "golden-ale",
@@ -621,7 +685,21 @@
     "category": "cans",
     "category_name": "環球特選啤酒",
     "img": "assets/img/golden-ale.jpg",
-    "sub": "ABV 4.6%"
+    "sub": "ABV 4.6%",
+    "opts": [
+      {
+        "label": "單罐",
+        "price": 28
+      },
+      {
+        "label": "半打",
+        "price": 160
+      },
+      {
+        "label": "一打",
+        "price": 302
+      }
+    ]
   },
   {
     "id": "lager-beer",
@@ -630,7 +708,21 @@
     "category": "cans",
     "category_name": "環球特選啤酒",
     "img": "assets/img/lager-beer.jpg",
-    "sub": "ABV 8.4%"
+    "sub": "ABV 8.4%",
+    "opts": [
+      {
+        "label": "單罐",
+        "price": 28
+      },
+      {
+        "label": "半打",
+        "price": 160
+      },
+      {
+        "label": "一打",
+        "price": 302
+      }
+    ]
   },
   {
     "id": "stout-beer",
@@ -639,7 +731,21 @@
     "category": "cans",
     "category_name": "環球特選啤酒",
     "img": "assets/img/stout-beer.jpg",
-    "sub": "愛爾蘭入口 · ABV 4.6%"
+    "sub": "愛爾蘭入口 · ABV 4.2%",
+    "opts": [
+      {
+        "label": "單罐",
+        "price": 29
+      },
+      {
+        "label": "半打",
+        "price": 165
+      },
+      {
+        "label": "一打",
+        "price": 313
+      }
+    ]
   },
   {
     "id": "sea-salt-gose",
@@ -647,7 +753,22 @@
     "price": 35,
     "category": "cans",
     "category_name": "環球特選啤酒",
-    "img": "assets/img/sea-salt-gose.jpg"
+    "img": "assets/img/sea-salt-gose.jpg",
+    "sub": "ABV 4% / 6.5%",
+    "opts": [
+      {
+        "label": "單罐",
+        "price": 35
+      },
+      {
+        "label": "半打",
+        "price": 200
+      },
+      {
+        "label": "一打",
+        "price": 378
+      }
+    ]
   },
   {
     "id": "mango-gose",
@@ -655,7 +776,22 @@
     "price": 35,
     "category": "cans",
     "category_name": "環球特選啤酒",
-    "img": "assets/img/mango-gose.jpg"
+    "img": "assets/img/mango-gose.jpg",
+    "sub": "ABV 4.2% / 4%",
+    "opts": [
+      {
+        "label": "單罐",
+        "price": 35
+      },
+      {
+        "label": "半打",
+        "price": 200
+      },
+      {
+        "label": "一打",
+        "price": 378
+      }
+    ]
   },
   {
     "id": "starfruit-gose",
@@ -663,7 +799,22 @@
     "price": 38,
     "category": "cans",
     "category_name": "環球特選啤酒",
-    "img": "assets/img/starfruit-gose.jpg"
+    "img": "assets/img/starfruit-gose.jpg",
+    "sub": "ABV 3.8%",
+    "opts": [
+      {
+        "label": "單罐",
+        "price": 38
+      },
+      {
+        "label": "半打",
+        "price": 217
+      },
+      {
+        "label": "一打",
+        "price": 410
+      }
+    ]
   },
   {
     "id": "olive-cider",
@@ -671,7 +822,22 @@
     "price": 38,
     "category": "cans",
     "category_name": "環球特選啤酒",
-    "img": "assets/img/olive-cider.jpg"
+    "img": "assets/img/olive-cider.jpg",
+    "sub": "ABV 4%",
+    "opts": [
+      {
+        "label": "單罐",
+        "price": 38
+      },
+      {
+        "label": "半打",
+        "price": 217
+      },
+      {
+        "label": "一打",
+        "price": 410
+      }
+    ]
   },
   {
     "id": "triple-ipa",
@@ -680,7 +846,21 @@
     "category": "cans",
     "category_name": "環球特選啤酒",
     "img": "assets/img/triple-ipa.jpg",
-    "sub": "ABV 10%"
+    "sub": "ABV 10%",
+    "opts": [
+      {
+        "label": "單罐",
+        "price": 48
+      },
+      {
+        "label": "半打",
+        "price": 274
+      },
+      {
+        "label": "一打",
+        "price": 518
+      }
+    ]
   },
   {
     "id": "house-wine",
@@ -707,7 +887,7 @@
     "category": "wine",
     "category_name": "紅酒",
     "img": "assets/img/chardonnay.jpg",
-    "sub": "瓶售"
+    "sub": "瓶售 · ABV 13.5%"
   },
   {
     "id": "sauvignon-blanc",
@@ -716,7 +896,7 @@
     "category": "wine",
     "category_name": "紅酒",
     "img": "assets/img/sauvignon-blanc.jpg",
-    "sub": "瓶售"
+    "sub": "瓶售 · ABV 13%"
   },
   {
     "id": "shisha-2head",
